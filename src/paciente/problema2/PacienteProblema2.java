@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package paciente.problema2;
-import java.util.Random;
 import java.util.Scanner;
 /**
  *
@@ -15,7 +14,8 @@ public class PacienteProblema2 {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
+      
        Scanner scanner = new Scanner(System.in);
        System.out.println("Digite o nome do paanaciente");
        String nome= scanner.nextLine();
@@ -25,13 +25,19 @@ public class PacienteProblema2 {
        String gravidade=scanner.nextLine();
        System.out.println(" "+nome+"  "+cpf+"  "+gravidade);
        Paciente paciente = new Paciente(nome,cpf,gravidade);
-       System.out.println(paciente.toString());
-       int i=0;
-       while(i<25){
-        paciente.atualizarSinaisVitais();
-        System.out.println(paciente.toString());
+       
+       //Cria um publicador e inicia
+       Editor publicador = new Editor("tcp://broker.mqttdashboard.com:1883", null, null);
+       publicador.iniciar();
+       
+       String mensagem;
+
+       while(true){
+            Thread.sleep(1000);
+            paciente.atualizarSinaisVitais();
+            mensagem= paciente.toString();
+            publicador.publicar("problema2/dadosPaciente", mensagem.getBytes(), 0);
         
-        i++;
        }
     }
 

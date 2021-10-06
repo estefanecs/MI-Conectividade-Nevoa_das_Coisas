@@ -27,7 +27,7 @@ public class Paciente {
     private int satOxigenio;
     private String perfilGravidade;
     private int gravidade;
-    Random geradorNumeros;
+    private Random geradorNumeros;
 
     /**
      * Construtor da classe
@@ -223,8 +223,14 @@ public class Paciente {
 
     @Override
     public String toString() {
-        return "Paciente{" + "nome=" + nome + ", cpf=" + cpf + ", temperatura=" + temperatura + ", freqCardiaca=" + freqCardiaca + ", freqRespiratoria=" + freqRespiratoria + ", pressao=" + pressao + ", satOxigenio=" + satOxigenio + ", gravidade=" + gravidade +'}';
-    }
+        return "{" + "\"cpf\": \"" + cpf + "\" , "
+                + "\"nome\": \"" + nome + "\" ,"
+                + " \"pressaoArterial\": \"" + pressao + "\","
+                + " \"freqCardiaca\": \"" + freqCardiaca  + "\" , "
+                + " \"saturacao\": \"" + satOxigenio  + "\" , "
+                + "\"temperatura\": \"" + temperatura  + "\","
+                + " \"gravidade\": \"" + gravidade  + "\" }";
+        }
     
    
 }
