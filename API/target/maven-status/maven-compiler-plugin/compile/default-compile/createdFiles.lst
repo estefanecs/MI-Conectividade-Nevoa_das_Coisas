@@ -1,0 +1,9 @@
+view/main.class
+routes/PacienteRouter.class
+util/RespostaHTTP.class
+util/RequisicaoHTTP.class
+model/Paciente.class
+controller/RouterController.class
+routes/Router.class
+thread/ThreadCliente.class
+routes/MedicoRouter.class
