@@ -1,7 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Componente Curricular: Módulo Integrado de Concorrência e Conectividade
+ * Autor: 
+ * Data: 
+ *
+ * Declaro que este código foi elaborado por mim de forma individual e
+ * não contém nenhum trecho de código de outro colega ou de outro autor,
+ * tais como provindos de livros e apostilas, e páginas ou documentos
+ * eletrônicos da Internet. Qualquer trecho de código de outra autoria que
+ * uma citação para o  não a minha está destacado com  autor e a fonte do
+ * código, e estou ciente que estes trechos não serão considerados para fins
+ * de avaliação. Alguns trechos do código podem coincidir com de outros
+ * colegas pois estes foram discutidos em sessões tutorias.
  */
 package model;
 
@@ -15,13 +24,25 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object> {
 
     private String cpf;
     private String nome;
-    private String pressaoArterial;
-    private String freqCardiaca;
-    private String saturacao;
-    private float temperatura;
+    private int pressaoArterial;
+    private int freqCardiaca;
+    private int freqRespiratoria;
+    private int saturacao;
+    private int temperatura;
     private int gravidade;
 
-    public Paciente(String cpf, String nome, String pressaoArterial, String freqCardiaca, String saturacao, float temperatura, int gravidade) {
+    public Paciente(String cpf, String nome, int pressaoArterial, int freqCardiaca,int freqRespiratoria, int saturacao, int temperatura, int gravidade) {
+        this.cpf = cpf;
+        this.nome = nome;
+        this.pressaoArterial = pressaoArterial;
+        this.freqCardiaca = freqCardiaca;
+        this.freqRespiratoria = freqRespiratoria;
+        this.saturacao = saturacao;
+        this.temperatura = temperatura;
+        this.gravidade = gravidade;
+    }
+    
+     public Paciente(String cpf, String nome, int pressaoArterial, int freqCardiaca, int saturacao, int temperatura, int gravidade) {
         this.cpf = cpf;
         this.nome = nome;
         this.pressaoArterial = pressaoArterial;
@@ -29,49 +50,15 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object> {
         this.saturacao = saturacao;
         this.temperatura = temperatura;
         this.gravidade = gravidade;
+        this.freqRespiratoria= 0;
     }
-
-    public Paciente(String cpf, String nome, String pressaoArterial, String freqCardiaca, String saturacao, float temperatura) {
-        this.cpf = cpf;
-        this.nome = nome;
-        this.pressaoArterial = pressaoArterial;
-        this.freqCardiaca = freqCardiaca;
-        this.saturacao = saturacao;
-        this.temperatura = temperatura;
-    }
-
-    public Paciente(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public Paciente() {
-        this.nome = "Anonimo";
+     
+    public Paciente(){
     }
 
     public Paciente(String cpf, String nome) {
         this.nome = nome;
         this.cpf = cpf;
-        this.freqCardiaca = "0";
-        this.gravidade = 0;
-        this.pressaoArterial = "0";
-        this.saturacao = "0";
-        this.temperatura = 0;
-    }
-
-    public String getSaturacao() {
-        return saturacao;
-    }
-
-    public void setSaturacao(String saturacao) {
-        this.saturacao = saturacao;
-    }
-
-    public int getGravidade() {
-        return gravidade;
-    }
-
-    public void setGravidade(int gravidade) {
-        this.gravidade = gravidade;
     }
 
     public String getCpf() {
@@ -90,37 +77,64 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object> {
         this.nome = nome;
     }
 
-    public String getPressaoArterial() {
+    public int getPressaoArterial() {
         return pressaoArterial;
     }
 
-    public void setPressaoArterial(String altura) {
-        this.pressaoArterial = altura;
+    public void setPressaoArterial(int pressaoArterial) {
+        this.pressaoArterial = pressaoArterial;
     }
 
-    public String getFreqCardiaca() {
+    public int getFreqCardiaca() {
         return freqCardiaca;
     }
 
-    public void setFreqCardiaca(String freqCardiaca) {
+    public void setFreqCardiaca(int freqCardiaca) {
         this.freqCardiaca = freqCardiaca;
     }
 
-    public float getTemperatura() {
+    public int getFreqRespiratoria() {
+        return freqRespiratoria;
+    }
+
+    public void setFreqRespiratoria(int freqRespiratoria) {
+        this.freqRespiratoria = freqRespiratoria;
+    }
+
+    public int getSaturacao() {
+        return saturacao;
+    }
+
+    public void setSaturacao(int saturacao) {
+        this.saturacao = saturacao;
+    }
+
+    public int getTemperatura() {
         return temperatura;
     }
 
-    public void setTemperatura(float temperatura) {
+    public void setTemperatura(int temperatura) {
         this.temperatura = temperatura;
     }
 
-    @Override
+    public int getGravidade() {
+        return gravidade;
+    }
+
+    public void setGravidade(int gravidade) {
+        this.gravidade = gravidade;
+    }
+
+    
+    
+  
     public String toString() {
         return "{" + "\"cpf\": \"" + cpf + "\" , "
                 + "\"nome\": \"" + nome + "\" ,"
-                + " \"pressaoArterial\": \"" + pressaoArterial  + "\","
+                + " \"pressaoArterial\": \"" + pressaoArterial + "\","
                 + " \"freqCardiaca\": \"" + freqCardiaca  + "\" , "
-                + " \"saturacao\": \"" + saturacao   + "\" , "
+                + " \"freqRespiratoria\": \"" + freqRespiratoria  + "\" , "
+                + " \"saturacao\": \"" + saturacao  + "\" , "
                 + "\"temperatura\": \"" + temperatura  + "\","
                 + " \"gravidade\": \"" + gravidade  + "\" }";
     }

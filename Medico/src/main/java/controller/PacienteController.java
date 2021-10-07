@@ -1,17 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Componente Curricular: Módulo Integrado de Concorrência e Conectividade
+ * Autor: 
+ * Data: 
+ *
+ * Declaro que este código foi elaborado por mim de forma individual e
+ * não contém nenhum trecho de código de outro colega ou de outro autor,
+ * tais como provindos de livros e apostilas, e páginas ou documentos
+ * eletrônicos da Internet. Qualquer trecho de código de outra autoria que
+ * uma citação para o  não a minha está destacado com  autor e a fonte do
+ * código, e estou ciente que estes trechos não serão considerados para fins
+ * de avaliação. Alguns trechos do código podem coincidir com de outros
+ * colegas pois estes foram discutidos em sessões tutorias.
  */
 package controller;
 
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import model.Paciente;
 
 /**
@@ -26,69 +33,9 @@ public class PacienteController {
         paciente = new Paciente();
     }
 
-    public boolean createPaciente(String baseUrl, String json) {
+    public Paciente[] listPaciente(String baseUrl, int quantidadePacientes) {
         try {
-            URL url = new URL(baseUrl + "paciente");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.addRequestProperty("Accept", "*/*");
-            connection.addRequestProperty("Content-Type", "application/json");
-            connection.addRequestProperty("Accept-Encoding", "gzip, deflate, br");
-            connection.addRequestProperty("Content-Length", "" + json.length());
-            connection.setRequestMethod("POST");
-            System.out.println(json.length());
-            connection.setDoOutput(true);
-            connection.connect();
-            OutputStream writer = connection.getOutputStream();
-            writer.write((json + "\n").getBytes());
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println("client read " + line);
-            }
-            reader.close();
-            int responseCode = connection.getResponseCode();
-            System.out.println("response code=" + responseCode);
-            System.out.println("Client exiting");
-            return true;
-        } catch (Exception e) {
-            System.out.println("Erro: " + e.getMessage());
-            return false;
-        }
-    }
-    
-    public boolean updateGravidadePaciente(String baseUrl, String json) {
-        try {
-            URL url = new URL(baseUrl + "paciente/status");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.addRequestProperty("Accept", "*/*");
-            connection.addRequestProperty("Content-Type", "application/json");
-            connection.addRequestProperty("Accept-Encoding", "gzip, deflate, br");
-            connection.addRequestProperty("Content-Length", "" + json.length());
-            connection.setRequestMethod("PUT");
-            System.out.println(json.length());
-            connection.setDoOutput(true);
-            connection.connect();
-            OutputStream writer = connection.getOutputStream();
-            writer.write((json + "\n").getBytes());
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println("client read " + line);
-            }
-            reader.close();
-            int responseCode = connection.getResponseCode();
-            System.out.println("response code=" + responseCode);
-            System.out.println("Client exiting");
-            return true;
-        } catch (Exception e) {
-            System.out.println("Erro: " + e.getMessage());
-            return false;
-        }
-    }
-
-    public Paciente[] listPaciente(String baseUrl) {
-        try {
-            URL url = new URL(baseUrl + "medico/pacientes?sort=true");
+            URL url = new URL(baseUrl + "medico/pacientes?sort=true?quantidade="+quantidadePacientes);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.addRequestProperty("Accept", "*/*");
             connection.addRequestProperty("Content-Type", "application/json");
