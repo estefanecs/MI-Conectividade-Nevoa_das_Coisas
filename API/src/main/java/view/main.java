@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Paciente;
 import thread.ThreadCliente;
+import thread.ThreadOuvinte;
 
 /**
  *
@@ -28,7 +29,6 @@ public class main {
         data_base = new HashMap<String, Object>();
         ServerSocket serv = null;
         try {
-            //Converte o parametro recebido para int (número da porta)
             System.out.println("Incializando o servidor...");
             //Iniciliza o servidor
             serv = new ServerSocket(8000);
@@ -37,7 +37,9 @@ public class main {
             System.out.println("Servidor iniciado, ouvindo a porta " + serv.getLocalPort());
             System.out.println("Host: " + serv.toString());
             //Aguarda conexões
+            new ThreadOuvinte(data_base, "tcp://broker.mqttdashboard.com:1883", null, null, "problema2/dadosPaciente", 2);
 
+            
             while (true) {
                 Socket clie = serv.accept();
                 System.out.println(clie.getInetAddress().getHostAddress());
@@ -45,7 +47,7 @@ public class main {
 
                 new ThreadCliente(clie, data_base).start();
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             try {
                 serv.close();
             } catch (IOException ex) {
