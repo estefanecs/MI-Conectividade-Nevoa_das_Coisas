@@ -25,7 +25,7 @@ import model.Paciente;
  */
 public class ListReportView extends javax.swing.JFrame {
 
-    private String baseUrl= "https://pblredes.herokuapp.com/";
+    private String baseUrl= "http://localhost:8000/";
     private PacienteController reportController;
     private boolean exitThread;
 
@@ -58,12 +58,12 @@ public class ListReportView extends javax.swing.JFrame {
                         Object[] row = {
                             paciente1.getNome(),
                             paciente1.getCpf(),
+                            paciente1.getGravidade(),
                             paciente1.getPressaoArterial(),
                             paciente1.getFreqCardiaca(),
                             paciente1.getFreqRespiratoria(),
                             paciente1.getTemperatura(),
-                            paciente1.getSaturacao(),
-                            paciente1.getGravidade()
+                            paciente1.getSaturacao()
                         };
                         model.addRow(row);
                         System.out.println("Nome: " + paciente1.getNome());
@@ -237,8 +237,6 @@ public class ListReportView extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-
-        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

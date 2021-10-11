@@ -11,6 +11,7 @@ import java.util.EmptyStackException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import model.Paciente;
+import thread.ThreadOuvinte;
 
 /**
  *
@@ -44,33 +45,56 @@ public class MedicoRouter implements Router {
             HashMap<String, String> entries = gson.fromJson((String) body, HashMap.class);
             String sort = entries.get("sort");
 
-            Iterator i = data_base.values().iterator();
+//            Iterator i = data_base.values().iterator();
             StringBuilder jsonBuilder = new StringBuilder();
             jsonBuilder.append('[');
 
-            LinkedList<Paciente> listPatientes = new LinkedList<Paciente>();
+//            LinkedList<Paciente> listPatientes = new LinkedList<Paciente>();
+//            Object row;
+//            while (i.hasNext()) {
+//                row = i.next();
+//                if (row instanceof Paciente) {
+//                    jsonBuilder.append(row.toString());
+//                    if (i.hasNext()) {
+//                        jsonBuilder.append(',');
+//                    }
+//                }
+//
+//            }
+            Iterator i = ThreadOuvinte.pacientes();
             Object row;
-            while (i.hasNext()) {
-                row = i.next();
-                if (row instanceof Paciente) {
-                    listPatientes.add((Paciente) row);
-                }
-
+            String quant = entries.get("quantidade");
+            int quantidade = 0;
+            if (quant != null) {
+                System.out.println("Antes: ");
+                quantidade = Integer.parseInt(quant);
             }
-            if (sort != null && sort.equals("true")) {
-                listPatientes.sort(new Paciente());
-            }
-            i = listPatientes.iterator();
-            while (i.hasNext()) {
-                row = i.next();
-                if (row instanceof Paciente) {
-                    jsonBuilder.append(row.toString());
-                    if (i.hasNext()) {
-                        jsonBuilder.append(',');
+            System.out.println("OPA2" + quantidade);
+            if (quantidade > 0) {
+                int temp = 0;
+                while (i.hasNext() && temp < quantidade) {
+                    row = i.next();
+                    if (row instanceof Paciente) {
+                        jsonBuilder.append(row.toString());
+                        if (i.hasNext()) {
+                            jsonBuilder.append(',');
+                        }
                     }
+                    temp++;
                 }
+            } else {
+                while (i.hasNext()) {
+                    row = i.next();
+                    if (row instanceof Paciente) {
+                        jsonBuilder.append(row.toString());
+                        if (i.hasNext()) {
+                            jsonBuilder.append(',');
+                        }
+                    }
 
+                }
             }
+
             jsonBuilder.append(']');
             System.out.println(data_base.size());
             res[0] = "200";

@@ -35,7 +35,7 @@ public class PacienteController {
 
     public Paciente[] listPaciente(String baseUrl, int quantidadePacientes) {
         try {
-            URL url = new URL(baseUrl + "medico/pacientes?sort=true?quantidade="+quantidadePacientes);
+            URL url = new URL(baseUrl + "medico/pacientes?sort=true&quantidade="+quantidadePacientes);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.addRequestProperty("Accept", "*/*");
             connection.addRequestProperty("Content-Type", "application/json");
