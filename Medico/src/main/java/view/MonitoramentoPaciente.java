@@ -15,17 +15,15 @@
 package view;
 
 import controller.PacienteController;
-import java.util.Timer;
-import java.util.TimerTask;
 import javax.swing.JOptionPane;
 import model.Paciente;
 
 public class MonitoramentoPaciente extends javax.swing.JFrame implements Runnable {
 
-    private String baseUrl;
-    private Paciente paciente;
-    private PacienteController reportController;
-    private boolean exitThread;
+    private String urlServidor; //endereço do servidor
+    private Paciente paciente; //paciente que está sendo monitorado
+    private PacienteController reportController; //instância do controlador
+    private boolean exitThread; //Variável de controle de thread
 
     /**
      * Cria uma nova tela de MonitoramentoPaciente
@@ -34,7 +32,7 @@ public class MonitoramentoPaciente extends javax.swing.JFrame implements Runnabl
     public MonitoramentoPaciente(Paciente paciente, String baseUrl) {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.baseUrl = baseUrl;
+        this.urlServidor = baseUrl;
         this.exitThread = false;
         this.paciente = paciente;
         reportController = new PacienteController();
@@ -450,11 +448,15 @@ public class MonitoramentoPaciente extends javax.swing.JFrame implements Runnabl
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Retorna para a tela inicial
+     *
+     * @param evt
+     */
     private void voltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarActionPerformed
         this.setVisible(false);
         exitThread = true;
-        new ListReportView().setVisible(true);
+        new TelaInicial().setVisible(true);
     }//GEN-LAST:event_voltarActionPerformed
 
 
@@ -490,16 +492,17 @@ public class MonitoramentoPaciente extends javax.swing.JFrame implements Runnabl
     private javax.swing.JButton voltar;
     // End of variables declaration//GEN-END:variables
 
-    
+    /**
+     * Método que realiza a atualização na tela, dos dados do paciente
+     */
     @Override
     public void run() {
-       
         while (!exitThread) {
             try {
-                //Envia a requisicao para atualizar os sinais vitais
-                paciente = reportController.getPaciente(baseUrl, paciente.getCpf());
-                //Atualiza as informacoes na tela
+                //Envia a requisicao para atualizar os sinais vitais do paciente
+                paciente = reportController.getPaciente(urlServidor, paciente.getCpf());
 
+                //Atualiza as informacoes na tela
                 gravPaciente.setText(" " + paciente.getGravidade());
                 pressaoPaciente.setText(" " + paciente.getPressaoArterial() + " mmHg");
                 fcPaciente.setText(" " + paciente.getFreqCardiaca() + " bpm");
@@ -507,6 +510,7 @@ public class MonitoramentoPaciente extends javax.swing.JFrame implements Runnabl
                 saturPaciente.setText(" " + paciente.getSaturacao() + "%");
                 tempPaciente.setText(" " + paciente.getTemperatura() + "ºC");
 
+                //Notifica ao médico sobre a gravidade do paciente
                 if (paciente.getGravidade() >= 5 && paciente.getGravidade() < 10) {
                     String notificacao = "O paciente " + paciente.getNome() + " está em sinal de alerta.";
                     JOptionPane.showMessageDialog(null, notificacao);
@@ -514,7 +518,7 @@ public class MonitoramentoPaciente extends javax.swing.JFrame implements Runnabl
                     String notificacao = "O estado de saúde do paciente " + paciente.getNome() + "é grave e deve procurar uma unidade de saúde urgentemente";
                     JOptionPane.showMessageDialog(null, notificacao);
                 }
-                Thread.sleep(500);
+                Thread.sleep(500); //A thread dorme por um tempo
             } catch (InterruptedException e) {
             }
         }

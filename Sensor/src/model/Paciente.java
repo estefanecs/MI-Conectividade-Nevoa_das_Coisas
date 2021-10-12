@@ -1,20 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Componente Curricular: Módulo Integrado de Concorrência e Conectividade
+ * Autor: Cleyton Almeida da Silva, Estéfane Carmo de Souza e Matheus Nascimento
+ * Data: 30/09/2021
+ *
+ * Declaro que este código foi elaborado por nós de forma colaborativa e
+ * não contém nenhum trecho de código de outro colega ou de outro autor,
+ * tais como provindos de livros e apostilas, e páginas ou documentos
+ * eletrônicos da Internet. Qualquer trecho de código de outra autoria que
+ * uma citação para o  não a minha está destacado com  autor e a fonte do
+ * código, e estou ciente que estes trechos não serão considerados para fins
+ * de avaliação. Alguns trechos do código podem coincidir com de outros
+ * colegas pois estes foram discutidos em sessões tutorias.
  */
-package paciente.problema2;
+package model;
 
 import java.util.Random;
 
 /**
  * Esta classe é para objetos do tipo Paciente, contendo seus atributos como nome,
  * cpf, temperatura, frequencia cardiaca, frequencia respiratória, pressão arterial,
- * saturação do oxigênio e o estado de gravidade do paciente.
+ * saturação do oxigênio, perfil de gravidade e o estado de gravidade do paciente.
  *
  * Exemplo de uso:
  *
- * Paciente paciente= new Paciente("Nome do paciente","cpf");
+ * Paciente paciente= new Paciente("Nome do paciente","cpf","perfilGravidade");
  *
  */
 public class Paciente {
@@ -23,8 +32,8 @@ public class Paciente {
     private int temperatura;
     private int freqCardiaca;
     private int freqRespiratoria;
-    private int pressao;
-    private int satOxigenio;
+    private int pressaoArterial;
+    private int saturacao;
     private String perfilGravidade;
     private int gravidade;
     private Random geradorNumeros;
@@ -33,13 +42,14 @@ public class Paciente {
      * Construtor da classe
      * @param nome nome do paciente
      * @param cpf cpf do paciente
+     * @param perfilGravidade perfil de gravidade do paciente
      */
     public Paciente(String nome, String cpf, String perfilGravidade) {
         this.nome = nome;
         this.cpf = cpf;
         this.perfilGravidade = perfilGravidade;
-        geradorNumeros = new Random();
-        this.atualizarSinaisVitais();
+        geradorNumeros = new Random(); //Cria o gerador de números aleatórios
+        this.atualizarSinaisVitais(); //Gera os dados do paciente
     }
     
     /**
@@ -83,19 +93,19 @@ public class Paciente {
     }
     
     /**
-     * Método que retorna a pressao do paciente
-     * @return pressao
+     * Método que retorna a pressaoArterial do paciente
+     * @return pressaoArterial
      */
     public float getPressao() {
-        return pressao;
+        return pressaoArterial;
     }
 
     /**
      * Método que retorna a saturacao do oxigenio do paciente
-     * @return satOxigenio
+     * @return saturacao
      */
-    public int getSatOxigenio() {
-        return satOxigenio;
+    public int getSaturacao() {
+        return saturacao;
     }
     
     /**
@@ -157,8 +167,8 @@ public class Paciente {
         this.temperatura = 35 + this.geradorNumeros.nextInt(37 -35 +1); //Numero entre 35 e 37
         this.freqCardiaca = 60 + this.geradorNumeros.nextInt(100 -60 +1); //Numero entre 60 e 100
         this.freqRespiratoria = 16 + this.geradorNumeros.nextInt(20 -16 +1); //Numero entre 16 e 20
-        this.pressao = 100 + this.geradorNumeros.nextInt(140 -100 +1); //Numero entre 100 e 160
-        this.satOxigenio = 90 + this.geradorNumeros.nextInt(100 -90 +1); //Numero entre 90 e 100
+        this.pressaoArterial = 100 + this.geradorNumeros.nextInt(140 -100 +1); //Numero entre 100 e 160
+        this.saturacao = 90 + this.geradorNumeros.nextInt(100 -90 +1); //Numero entre 90 e 100
     }
     
     /**
@@ -169,8 +179,8 @@ public class Paciente {
         this.temperatura = 38 + this.geradorNumeros.nextInt(50 -38 +1); //Numero entre 38 e 50
         this.freqCardiaca = 101 + this.geradorNumeros.nextInt(200 -101 +1); //Numero entre 101 e 200
         this.freqRespiratoria = 21 + this.geradorNumeros.nextInt(100 -21 +1); //Numero entre 21 e 100
-        this.pressao = this.geradorNumeros.nextInt(99); //Numero de 0 a 99
-        this.satOxigenio = this.geradorNumeros.nextInt(89); //Numero de 0 a 89
+        this.pressaoArterial = this.geradorNumeros.nextInt(99); //Numero de 0 a 99
+        this.saturacao = this.geradorNumeros.nextInt(89); //Numero de 0 a 89
     }
     
     /**
@@ -203,31 +213,37 @@ public class Paciente {
             this.gravidade+=3;//Soma 3 na gravidade
         }
          
-        //Define a gravidade conforme a pressao
-        if(this.pressao>=81 && this.pressao<100){
+        //Define a gravidade conforme a pressaoArterial
+        if(this.pressaoArterial>=81 && this.pressaoArterial<100){
             this.gravidade+=1; //Soma 1 na gravidade
         }
-        else if (this.pressao>0 && this.pressao<=80){
+        else if (this.pressaoArterial>0 && this.pressaoArterial<=80){
             this.gravidade+=3; //Soma 3 na gravidade
         }
           
         //Define a gravidade conforme a saturacao do oxigenio
-        if(this.satOxigenio>80 && this.satOxigenio<90){
+        if(this.saturacao>80 && this.saturacao<90){
             this.gravidade+=1; //Soma 1 na gravidade
         }
-        else if (this.satOxigenio>0 && this.satOxigenio<=80){
+        else if (this.saturacao>0 && this.saturacao<=80){
             this.gravidade+=3;//Soma 3 na gravidade
         }
 
     }
-
+    
+    /**
+     * Método toString da classe, que retorna todos os valores de cada atributo do
+     * paciente.
+     * @return String - dados do paciente
+     */
     @Override
     public String toString() {
         return "{" + "\"cpf\": \"" + cpf + "\" , "
                 + "\"nome\": \"" + nome + "\" ,"
-                + " \"pressaoArterial\": \"" + pressao + "\","
+                + " \"pressaoArterial\": \"" + pressaoArterial + "\","
                 + " \"freqCardiaca\": \"" + freqCardiaca  + "\" , "
-                + " \"saturacao\": \"" + satOxigenio  + "\" , "
+                + " \"freqRespiratoria\": \"" + freqRespiratoria  + "\" , "
+                + " \"saturacao\": \"" + saturacao  + "\" , "
                 + "\"temperatura\": \"" + temperatura  + "\","
                 + " \"gravidade\": \"" + gravidade  + "\" }";
         }

@@ -1,9 +1,9 @@
 /**
  * Componente Curricular: Módulo Integrado de Concorrência e Conectividade
- * Autor: 
- * Data: 
+ * Autor: Cleyton Almeida da Silva, Estéfane Carmo de Souza e Matheus Nascimento
+ * Data: 07/10/2021
  *
- * Declaro que este código foi elaborado por mim de forma individual e
+ * Declaro que este código foi elaborado por nós de forma colaborativa e
  * não contém nenhum trecho de código de outro colega ou de outro autor,
  * tais como provindos de livros e apostilas, e páginas ou documentos
  * eletrônicos da Internet. Qualquer trecho de código de outra autoria que
@@ -19,41 +19,42 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Paciente;
 
-/**
- *
- * @author matheusnascimento
- */
-public class ListReportView extends javax.swing.JFrame {
+public class TelaInicial extends javax.swing.JFrame {
 
-    private String baseUrl= "https://pblredes.herokuapp.com/";
-    private PacienteController reportController;
-    private boolean exitThread;
+    private String urlServidor = "https://pblredes.herokuapp.com/"; //Endereço do servidor
+    private PacienteController reportController; //Instância do controlador
+    private boolean exitThread; //Variável de controle de tela
 
     /**
-     * Creates new form ListReportView
+     * Cria uma nova tela
      *
      */
-    public ListReportView() {
-        initComponents();
+    public TelaInicial() {
+        initComponents(); //inicializa os componentes
         this.exitThread = false;
         reportController = new PacienteController();
         Thread threadListPacientes = new Thread(listPacientes, "Listagem pacientes");
         threadListPacientes.start();
 
     }
-
-    Runnable listPacientes
-            = new Runnable() {
+    
+    /**
+     * Método que faz atualização da lista de pacientes
+     */
+    Runnable listPacientes = new Runnable() {
         @Override
         public void run() {
             System.out.println("Runnable running");
 
             while (!exitThread) {
                 try {
-                    int quantidade = (int)quantidadePacientes.getValue();
-                    Paciente[] pacientes = reportController.listPaciente(baseUrl, quantidade);
+                    //Quantidade de pacientes que deve ser listada
+                    int quantidade = (int) quantidadePacientes.getValue();
+                    //Faz a requisão da listagem de pacientes
+                    Paciente[] pacientes = reportController.listPaciente(urlServidor, quantidade);
                     DefaultTableModel model = (DefaultTableModel) tblPacientes.getModel();
                     model.setRowCount(0);
+                    //Lista na tela as informações do paciente
                     for (Paciente paciente1 : pacientes) {
                         Object[] row = {
                             paciente1.getNome(),
@@ -195,16 +196,20 @@ public class ListReportView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Método que permite a seleção de um paciente para monitorar
+     * @param evt 
+     */
     private void tblPacientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPacientesMouseClicked
         // TODO add your handling code here:
         JTable source = (JTable) evt.getSource();
         int row = source.rowAtPoint(evt.getPoint());
-        String cpf = source.getModel().getValueAt(row, 1) + "";
-        Paciente paciente = reportController.getPaciente(baseUrl, cpf);
+        String cpf = source.getModel().getValueAt(row, 1) + ""; //cpf do paciente
+        Paciente paciente = reportController.getPaciente(urlServidor, cpf); //Busca o paciente com o cpf
+        //Se encontrou o paciente, cria uma janela para o monitoramento do paciente
         if (paciente != null) {
             exitThread = true;
-            MonitoramentoPaciente reportView = new MonitoramentoPaciente(paciente, baseUrl);
+            MonitoramentoPaciente reportView = new MonitoramentoPaciente(paciente, urlServidor);
             reportView.setVisible(true);
             dispose();
         }
@@ -227,26 +232,27 @@ public class ListReportView extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ListReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ListReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ListReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ListReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaInicial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
-        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ListReportView().setVisible(true);
+                new TelaInicial().setVisible(true);
             }
         });
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
