@@ -8,6 +8,7 @@ package thread;
 import com.google.gson.Gson;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import model.Paciente;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
@@ -19,6 +20,7 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
+import util.FilaPrioridade;
 
 /**
  *
@@ -27,6 +29,11 @@ import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 public class ThreadOuvinte implements IMqttMessageListener{
 
     private HashMap<String, Object> data_base;
+    private static FilaPrioridade pacientes = new FilaPrioridade();
+    
+    public static Iterator pacientes (){
+        return pacientes.getIterator();
+    }
 
     public ThreadOuvinte(HashMap<String, Object> data_base, String serverURI, String user, String password, String topic, int qos) {
         this.data_base = data_base;
@@ -47,9 +54,13 @@ public class ThreadOuvinte implements IMqttMessageListener{
             pacienteBD.setTemperatura(paciente.getTemperatura());
             pacienteBD.setSaturacao(paciente.getSaturacao());
             pacienteBD.setNome(paciente.getNome());
+            pacienteBD.setGravidade(paciente.getGravidade());
+            pacienteBD.setFreqRespiratoria(paciente.getFreqRespiratoria());
         }else{
             data_base.put(paciente.getCpf(), paciente);
         }
+        pacientes.remove(paciente);
+        pacientes.add(paciente);
     }
 
 }

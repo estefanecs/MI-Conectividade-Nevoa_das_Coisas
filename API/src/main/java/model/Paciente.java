@@ -15,19 +15,21 @@
 package model;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 
 public class Paciente implements Comparable<Paciente>, Comparator<Object> {
 
     private String cpf;
     private String nome;
-    private String pressaoArterial;
-    private String freqCardiaca;
-    private String saturacao;
-    private float temperatura;
+    private int pressaoArterial;
+    private int freqCardiaca;
+    private int saturacao;
+    private int temperatura;
     private int gravidade;
+    private int freqRespiratoria;
 
-    public Paciente(String cpf, String nome, String pressaoArterial, String freqCardiaca, String saturacao, float temperatura, int gravidade) {
+    public Paciente(String cpf, String nome, int pressaoArterial, int freqCardiaca, int saturacao, int temperatura, int gravidade) {
         this.cpf = cpf;
         this.nome = nome;
         this.pressaoArterial = pressaoArterial;
@@ -37,47 +39,37 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object> {
         this.gravidade = gravidade;
     }
 
-    public Paciente(String cpf, String nome, String pressaoArterial, String freqCardiaca, String saturacao, float temperatura) {
+    
+    
+    public Paciente(String cpf, String nome, int pressaoArterial, int freqCardiaca, int saturacao, int temperatura, int gravidade, int freqRespiratoria) {
         this.cpf = cpf;
         this.nome = nome;
         this.pressaoArterial = pressaoArterial;
         this.freqCardiaca = freqCardiaca;
         this.saturacao = saturacao;
         this.temperatura = temperatura;
-    }
-
-    public Paciente(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public Paciente() {
-        this.nome = "Anonimo";
-    }
-
-    public Paciente(String cpf, String nome) {
-        this.nome = nome;
-        this.cpf = cpf;
-        this.freqCardiaca = "0";
-        this.gravidade = 0;
-        this.pressaoArterial = "0";
-        this.saturacao = "0";
-        this.temperatura = 0;
-    }
-
-    public String getSaturacao() {
-        return saturacao;
-    }
-
-    public void setSaturacao(String saturacao) {
-        this.saturacao = saturacao;
-    }
-
-    public int getGravidade() {
-        return gravidade;
-    }
-
-    public void setGravidade(int gravidade) {
         this.gravidade = gravidade;
+        this.freqRespiratoria = freqRespiratoria;
+    }
+
+    @Override
+    public String toString() {
+        return "{" + "\"cpf\": \"" + cpf + "\" , "
+                + "\"nome\": \"" + nome + "\" ,"
+                + " \"pressaoArterial\": \"" + pressaoArterial + "\","
+                + " \"freqCardiaca\": \"" + freqCardiaca + "\" , "
+                + "\"freqRespiratoria\": \"" + freqRespiratoria+"\" ,"
+                + " \"saturacao\": \"" + saturacao + "\" , "
+                + "\"temperatura\": \"" + temperatura + "\","
+                + " \"gravidade\": \"" + gravidade + "\" }";
+    }
+
+    public int compareTo(Paciente o) {
+        return o.gravidade - this.gravidade;
+    }
+
+    public int compare(Object o1, Object o2) {
+        return ((Paciente) o2).gravidade - ((Paciente) o1).gravidade;
     }
 
     public String getCpf() {
@@ -96,47 +88,78 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object> {
         this.nome = nome;
     }
 
-    public String getPressaoArterial() {
+    public int getPressaoArterial() {
         return pressaoArterial;
     }
 
-    public void setPressaoArterial(String altura) {
-        this.pressaoArterial = altura;
+    public void setPressaoArterial(int pressaoArterial) {
+        this.pressaoArterial = pressaoArterial;
     }
 
-    public String getFreqCardiaca() {
+    public int getFreqCardiaca() {
         return freqCardiaca;
     }
 
-    public void setFreqCardiaca(String freqCardiaca) {
+    public void setFreqCardiaca(int freqCardiaca) {
         this.freqCardiaca = freqCardiaca;
     }
 
-    public float getTemperatura() {
+    public int getSaturacao() {
+        return saturacao;
+    }
+
+    public void setSaturacao(int saturacao) {
+        this.saturacao = saturacao;
+    }
+
+    public int getTemperatura() {
         return temperatura;
     }
 
-    public void setTemperatura(float temperatura) {
+    public void setTemperatura(int temperatura) {
         this.temperatura = temperatura;
     }
 
+    public int getGravidade() {
+        return gravidade;
+    }
+
+    public void setGravidade(int gravidade) {
+        this.gravidade = gravidade;
+    }
+
+    public int getFreqRespiratoria() {
+        return freqRespiratoria;
+    }
+
+    public void setFreqRespiratoria(int freqRespiratoria) {
+        this.freqRespiratoria = freqRespiratoria;
+    }
+
     @Override
-    public String toString() {
-        return "{" + "\"cpf\": \"" + cpf + "\" , "
-                + "\"nome\": \"" + nome + "\" ,"
-                + " \"pressaoArterial\": \"" + pressaoArterial  + "\","
-                + " \"freqCardiaca\": \"" + freqCardiaca  + "\" , "
-                + " \"saturacao\": \"" + saturacao   + "\" , "
-                + "\"temperatura\": \"" + temperatura  + "\","
-                + " \"gravidade\": \"" + gravidade  + "\" }";
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.cpf);
+        return hash;
     }
 
-    public int compareTo(Paciente o) {
-        return o.gravidade - this.gravidade;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Paciente other = (Paciente) obj;
+        if (!Objects.equals(this.cpf, other.cpf)) {
+            return false;
+        }
+        return true;
     }
-
-    public int compare(Object o1, Object o2) {
-        return ((Paciente) o2).gravidade - ((Paciente) o1).gravidade;
-    }
-
+    
+    
 }

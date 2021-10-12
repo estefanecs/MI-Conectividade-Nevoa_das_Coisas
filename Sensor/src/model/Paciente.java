@@ -27,6 +27,7 @@ import java.util.Random;
  *
  */
 public class Paciente {
+
     private String nome;
     private String cpf;
     private int temperatura;
@@ -40,6 +41,7 @@ public class Paciente {
 
     /**
      * Construtor da classe
+     *
      * @param nome nome do paciente
      * @param cpf cpf do paciente
      * @param perfilGravidade perfil de gravidade do paciente
@@ -51,9 +53,10 @@ public class Paciente {
         geradorNumeros = new Random(); //Cria o gerador de números aleatórios
         this.atualizarSinaisVitais(); //Gera os dados do paciente
     }
-    
+
     /**
      * Método que retorna o nome do paciente
+     *
      * @return nome
      */
     public String getNome() {
@@ -62,38 +65,43 @@ public class Paciente {
 
     /**
      * Metodo que retorna o cpf do paciente
+     *
      * @return cpf
      */
     public String getCpf() {
         return cpf;
     }
-    
+
     /**
      * Método que retorna a temperatua do paciente
+     *
      * @return temperatura
      */
     public int getTemperatura() {
         return temperatura;
     }
-    
+
     /**
      * Método que retorna a frequencia cardiaca do paciente
+     *
      * @return freqCardiaca
      */
     public int getFreqCardiaca() {
         return freqCardiaca;
     }
-    
+
     /**
      * Método que retorna a frequencia respiratoria do paciente
+     *
      * @return freqRespiratoria
      */
     public int getFreqRespiratoria() {
         return freqRespiratoria;
     }
-    
+
     /**
-     * Método que retorna a pressaoArterial do paciente
+     * Método que retorna a pressao do paciente
+     *
      * @return pressaoArterial
      */
     public float getPressao() {
@@ -102,63 +110,66 @@ public class Paciente {
 
     /**
      * Método que retorna a saturacao do oxigenio do paciente
+
      * @return saturacao
      */
     public int getSaturacao() {
         return saturacao;
     }
-    
+
     /**
      * Método que retorna a perfilGravidade do paciente
+     *
      * @return perfilGravidade
      */
-    public String getPerfilGravidade(){
+    public String getPerfilGravidade() {
         return perfilGravidade;
     }
-    
+
     /**
      * Método que retorna o indice de gravidade do paciente
+     *
      * @return perfilGravidade
      */
-    public int getGravidade(){
+    public int getGravidade() {
         return gravidade;
     }
-    
+
     /**
      * Método que altera o nome do paciente
+     *
      * @param nome - novo nome
      */
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
+
     /**
      * Método que altera o cpf do paciente
+     *
      * @param cpf - novo cpf
      */
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
-    
+
     /**
-     * Método que atualiza os sinais de cada paciente conforme o perfil
-     * de gravidade que possui. Além disso, calcula a gravidade baseando-se 
-     * no nível de risco que cada valor do sinal vital apresenta.
+     * Método que atualiza os sinais de cada paciente conforme o perfil de
+     * gravidade que possui. Além disso, calcula a gravidade baseando-se no
+     * nível de risco que cada valor do sinal vital apresenta.
      */
-    public void atualizarSinaisVitais(){
-        this.gravidade=0; 
-        if(this.perfilGravidade.equalsIgnoreCase("normal")){
+    public void atualizarSinaisVitais() {
+        this.gravidade = 0;
+        if (this.perfilGravidade.equalsIgnoreCase("normal")) {
             this.sinaisVitaisNormais(); //Define os valores normais de cada sinal
-        }
-        else if(this.perfilGravidade.equalsIgnoreCase("grave")){
+        } else if (this.perfilGravidade.equalsIgnoreCase("grave")) {
             this.sinaisVitaisGraves(); //Define os valores graves de cada sinal
             this.calcularGravidade(); //Metodo que calcula a gravidade
-        }
-        else{
+        } else {
             this.sinaisVitaisNormais();
         }
     }
-   
+
     /**
      * Metodo que define de forma randomica os valores de cada sinal final,
      * dentro de uma faixa de valores consideradoros normais.
@@ -170,7 +181,7 @@ public class Paciente {
         this.pressaoArterial = 100 + this.geradorNumeros.nextInt(140 -100 +1); //Numero entre 100 e 160
         this.saturacao = 90 + this.geradorNumeros.nextInt(100 -90 +1); //Numero entre 90 e 100
     }
-    
+
     /**
      * Metodo que define de forma randomica os valores de cada sinal final,
      * dentro de uma faixa de valores consideradoros graves.
@@ -182,51 +193,34 @@ public class Paciente {
         this.pressaoArterial = this.geradorNumeros.nextInt(99); //Numero de 0 a 99
         this.saturacao = this.geradorNumeros.nextInt(89); //Numero de 0 a 89
     }
-    
+
     /**
-     * Metodo que analisa o valor de cada sinal vital e define a gravidade 
-     * do paciente. Para cada faixa de valores de um sinal vital, a pontuacao 
-     * podera ser 1 ou 3.
+     * Metodo que analisa o valor de cada sinal vital e define a gravidade do
+     * paciente. 
+     * 
      */
-    private void calcularGravidade(){
+    private void calcularGravidade() {
         //Define a gravidade conforme a temperatura
-        if(this.temperatura>38 && this.temperatura<=39){
-            this.gravidade+=1; //soma 1 na gravidade
-        }
-        else if (this.temperatura>=39){
-            this.gravidade+=3; //soma 3 na gravidade
-        }
+        int variation = this.temperatura - 36;
+        this.gravidade += (variation < 0 ? -variation : variation);
         
         //Define a gravidade conforme a frequencia Cardiaca
-        if(this.freqCardiaca>=101 && this.freqCardiaca<=110){
-            this.gravidade+=1; //Soma 1 na gravidade
-        }
-        else if (this.freqCardiaca>=111){
-            this.gravidade+=3; //Soma 3 na gravidade
-        }
+        variation = this.freqCardiaca - 80;
+        this.gravidade += (variation < 0 ? -variation : variation);
         
         //Define a gravidade conforme a frequencia respiratoria
-        if(this.freqRespiratoria>=21 && this.freqRespiratoria<30){
-            this.gravidade+=1;//Soma 1 na gravidade
-        }
-        else if (this.freqRespiratoria>=30){
-            this.gravidade+=3;//Soma 3 na gravidade
-        }
-         
-        //Define a gravidade conforme a pressaoArterial
-        if(this.pressaoArterial>=81 && this.pressaoArterial<100){
-            this.gravidade+=1; //Soma 1 na gravidade
-        }
-        else if (this.pressaoArterial>0 && this.pressaoArterial<=80){
-            this.gravidade+=3; //Soma 3 na gravidade
-        }
-          
+        variation = this.freqRespiratoria - 25;
+        this.gravidade += (variation < 0 ? -variation : variation);
+        
         //Define a gravidade conforme a saturacao do oxigenio
-        if(this.saturacao>80 && this.saturacao<90){
-            this.gravidade+=1; //Soma 1 na gravidade
-        }
-        else if (this.saturacao>0 && this.saturacao<=80){
-            this.gravidade+=3;//Soma 3 na gravidade
+        variation = this.saturacao - 95;
+        this.gravidade += (variation < 0 ? -variation : variation);
+        
+        //Define a gravidade conforme a pressao
+        if (this.pressaoArterial >= 81 && this.pressaoArterial < 100) {
+            this.gravidade += 1; //Soma 1 na gravidade
+        } else if (this.pressaoArterial > 0 && this.pressaoArterial <= 80) {
+            this.gravidade += 3; //Soma 3 na gravidade
         }
 
     }
@@ -247,6 +241,4 @@ public class Paciente {
                 + "\"temperatura\": \"" + temperatura  + "\","
                 + " \"gravidade\": \"" + gravidade  + "\" }";
         }
-    
-   
 }
