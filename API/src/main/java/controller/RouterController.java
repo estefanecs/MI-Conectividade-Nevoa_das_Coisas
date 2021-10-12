@@ -1,7 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Componente Curricular: Módulo Integrado de Concorrência e Conectividade
+ * Autor: Cleyton Almeida da Silva, Estéfane Carmo de Souza e Matheus Nascimento
+ * Data: 11/10/2021
+ *
+ * Declaro que este código foi elaborado por nós de forma colaborativa e
+ * não contém nenhum trecho de código de outro colega ou de outro autor,
+ * tais como provindos de livros e apostilas, e páginas ou documentos
+ * eletrônicos da Internet. Qualquer trecho de código de outra autoria que
+ * uma citação para o  não a minha está destacado com  autor e a fonte do
+ * código, e estou ciente que estes trechos não serão considerados para fins
+ * de avaliação. Alguns trechos do código podem coincidir com de outros
+ * colegas pois estes foram discutidos em sessões tutorias.
  */
 package controller;
 
@@ -11,10 +20,7 @@ import routes.Router;
 import routes.MedicoRouter;
 import routes.PacienteRouter;
 
-/**
- *
- * @author matheusnascimento
- */
+
 public class RouterController {
 
     private Router route;

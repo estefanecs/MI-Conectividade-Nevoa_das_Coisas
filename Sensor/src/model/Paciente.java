@@ -104,7 +104,7 @@ public class Paciente {
      *
      * @return pressaoArterial
      */
-    public float getPressao() {
+    public int getPressao() {
         return pressaoArterial;
     }
 

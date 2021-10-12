@@ -1,3 +1,17 @@
+/**
+ * Componente Curricular: Módulo Integrado de Concorrência e Conectividade
+ * Autor: Cleyton Almeida da Silva, Estéfane Carmo de Souza e Matheus Nascimento
+ * Data: 11/10/2021
+ *
+ * Declaro que este código foi elaborado por nós de forma colaborativa e
+ * não contém nenhum trecho de código de outro colega ou de outro autor,
+ * tais como provindos de livros e apostilas, e páginas ou documentos
+ * eletrônicos da Internet. Qualquer trecho de código de outra autoria que
+ * uma citação para o  não a minha está destacado com  autor e a fonte do
+ * código, e estou ciente que estes trechos não serão considerados para fins
+ * de avaliação. Alguns trechos do código podem coincidir com de outros
+ * colegas pois estes foram discutidos em sessões tutorias.
+ */
 package util;
 
 import java.util.ArrayList;
@@ -134,7 +148,7 @@ public class FilaPrioridade {
     /**
      * Método que remove um paciente
      *
-     * @param nome - nome do paciente
+     * @param recebido - paciente
      * @return Paciente - o paciente removido
      */
     public Paciente remove(Paciente recebido) {
@@ -162,7 +176,7 @@ public class FilaPrioridade {
     /**
      * Método que busca um paciente pelo nome
      *
-     * @param nome nome do paciente
+     * @param cpf cpf do paciente
      * @return Paciente - o paciente encontrado
      */
     public Paciente buscarPaciente(String cpf) {

@@ -103,7 +103,7 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object> {
      *
      * @return pressaoArterial
      */
-    public float getPressaoArterial() {
+    public int getPressaoArterial() {
         return pressaoArterial;
     }
 
@@ -121,7 +121,7 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object> {
      *
      * @return freqCardiaca
      */
-    public float getFreqCardiaca() {
+    public int getFreqCardiaca() {
         return freqCardiaca;
     }
 
@@ -139,7 +139,7 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object> {
      *
      * @return freqRespiratoria
      */
-    public float getFreqRespiratoria() {
+    public int getFreqRespiratoria() {
         return freqRespiratoria;
     }
 
@@ -157,7 +157,7 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object> {
      *
      * @return saturacao
      */
-    public float getSaturacao() {
+    public int getSaturacao() {
         return saturacao;
     }
 
@@ -175,7 +175,7 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object> {
      *
      * @return temperatura
      */
-    public double getTemperatura() {
+    public int getTemperatura() {
         return temperatura;
     }
 
