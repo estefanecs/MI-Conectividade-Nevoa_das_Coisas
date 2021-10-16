@@ -35,7 +35,7 @@
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>libs/</classpathPrefix>
                             <mainClass>
-                                view.ListReportView
+                                view.TelaInicial
                             </mainClass>
                         </manifest>
                     </archive>
@@ -64,7 +64,7 @@
                 <configuration>
                   <archive>
                     <manifest>
-                      <mainClass>view.ListReportView</mainClass>
+                      <mainClass>view.TelaInicial</mainClass>
                     </manifest>
                   </archive>
                   <descriptorRefs>

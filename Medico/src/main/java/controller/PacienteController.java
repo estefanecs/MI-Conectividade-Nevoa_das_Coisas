@@ -45,7 +45,7 @@ public class PacienteController {
     public Paciente[] listPaciente(String urlServidor, int quantidadePacientes) {
         try {
             //Cria a url
-            URL url = new URL(urlServidor + "medico/pacientes?sort=true?quantidade=" + quantidadePacientes);
+            URL url = new URL(urlServidor + "medico/pacientes?sort=true&quantidade=" + quantidadePacientes);
             //Realiza a conexão e configura os campos da requisição
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.addRequestProperty("Accept", "*/*");

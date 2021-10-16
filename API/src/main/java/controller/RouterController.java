@@ -26,6 +26,7 @@ public class RouterController {
     private Router route;
 
     public Object[] router(String url, String method, String body, HashMap data_base) {
+        System.out.println(url);
         try {
             String[] urlSplit = url.split("\\?");
             String path = urlSplit[0];

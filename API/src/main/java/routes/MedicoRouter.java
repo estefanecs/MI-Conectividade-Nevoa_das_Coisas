@@ -70,10 +70,8 @@ public class MedicoRouter implements Router {
             String quant = entries.get("quantidade");
             int quantidade = 0;
             if (quant != null) {
-                System.out.println("Antes: ");
                 quantidade = Integer.parseInt(quant);
             }
-            System.out.println("OPA2" + quantidade);
             if (quantidade > 0) {
                 int temp = 0;
                 while (i.hasNext() && temp < quantidade) {

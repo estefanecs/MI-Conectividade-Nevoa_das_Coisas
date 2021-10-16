@@ -238,10 +238,10 @@ public class FilaPrioridade {
     private class it implements Iterator {
 
         private No atual = first;
-
+        
         @Override
         public boolean hasNext() {
-            return first != null && first.getNext() != null;
+            return first != null && atual != null;
         }
 
         @Override
