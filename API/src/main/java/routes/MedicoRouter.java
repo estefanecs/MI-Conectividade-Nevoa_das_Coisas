@@ -74,6 +74,7 @@ public class MedicoRouter implements Router {
             }
             if (quantidade > 0) {
                 int temp = 0;
+                System.out.println(i.hasNext());
                 while (i.hasNext() && temp < quantidade) {
                     row = i.next();
                     if (row instanceof Paciente) {

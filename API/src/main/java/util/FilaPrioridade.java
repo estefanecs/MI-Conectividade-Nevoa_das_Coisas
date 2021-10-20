@@ -246,7 +246,7 @@ public class FilaPrioridade {
 
         @Override
         public Object next() {
-            if (first != null && first.getNext() != null) {
+            if (atual != null) {
                 Object ret = atual.getConteudo();
                 atual = atual.getNext();
                 return ret;
