@@ -17,7 +17,8 @@ package view;
 import java.util.Scanner;
 import model.Editor;
 import model.Paciente;
-
+import thread.Sensor;
+import com.github.javafaker.*;
 /**
  * Esta classe faz a criação do paciente, a criação do publicador e fica sempre
  * atualizando os dados do paciente e enviando para o broker.
@@ -25,31 +26,15 @@ import model.Paciente;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-        Scanner scanner = new Scanner(System.in); //Cria o scanner
-        //Ler os dados do paciente: nome, cpf e perfil de gravidade
-        System.out.println("Digite o nome do paciente");
-        String nome = scanner.nextLine();
-        System.out.println("Digite o cpf do paciente");
-        String cpf = scanner.nextLine();
-        System.out.println("Digite a tendencia do paciente: normal ou grave");
-        String gravidade = scanner.nextLine();
-         //Cria a instância do paciente com os dados lidos anteriormente
-        Paciente paciente = new Paciente(nome, cpf, gravidade);
 
-        //Cria um publicador e inicia
-        Editor publicador = new Editor("tcp://broker.mqttdashboard.com:1883");
-        publicador.iniciar();
-
-        String mensagem;
-
-        while (true) {
-            Thread.sleep(1000);
-            paciente.atualizarSinaisVitais(); //Atualiza os sinais vitais do paciente
-            mensagem = paciente.toString(); //Cria a mensagem com os dados do paciente
-            System.out.println(mensagem); //Printa a mensagem
-            publicador.publicar("problema2/dadosPaciente", mensagem.getBytes(), 0); //Envia os dados para o broker
-
+        for(int i=0; i < 10; i++){
+            Faker faker = new Faker();
+            String nome = faker.name().fullName();
+            String cpf = faker.number().digits(11);
+            String gravidade = faker.bool().bool() ? "normal" : "grave";
+            new Sensor(cpf, nome, gravidade).start();
         }
     }
+
 
 }

@@ -38,7 +38,6 @@ public class ThreadCliente extends Thread {
     public ThreadCliente(Socket cliente, HashMap data_base) {
         this.socket = cliente;
         this.data_base_ref = data_base;
-
     }
 
     @Override
