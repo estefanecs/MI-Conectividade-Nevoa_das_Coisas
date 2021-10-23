@@ -22,7 +22,7 @@ import model.Paciente;
 public class TelaInicial extends javax.swing.JFrame {
 
 
-    private String urlServidor = "https://pblredes.herokuapp.com/"; //Endereço do servidor
+    private String urlServidor = "http://localhost:8000/"; //Endereço do servidor
     private PacienteController reportController; //Instância do controlador
     private boolean exitThread; //Variável de controle de tela
 

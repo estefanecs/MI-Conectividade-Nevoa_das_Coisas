@@ -14,6 +14,7 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.util.Random;
 
 /**
@@ -26,7 +27,7 @@ import java.util.Random;
  * Paciente paciente= new Paciente("Nome do paciente","cpf","perfilGravidade");
  *
  */
-public class Paciente {
+public class Paciente implements Serializable{
 
     private String nome;
     private String cpf;

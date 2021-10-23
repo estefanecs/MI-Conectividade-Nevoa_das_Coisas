@@ -1,22 +1,20 @@
 /**
- * Componente Curricular: Módulo Integrado de Concorrência e Conectividade
- * Autor: Cleyton Almeida da Silva, Estéfane Carmo de Souza e Matheus Nascimento
+ * Componente Curricular: M?dulo Integrado de Concorr?ncia e Conectividade
+ * Autor: Cleyton Almeida da Silva, Est?fane Carmo de Souza e Matheus Nascimento
  * Data: 11/10/2021
  *
- * Declaro que este código foi elaborado por nós de forma colaborativa e
- * não contém nenhum trecho de código de outro colega ou de outro autor,
- * tais como provindos de livros e apostilas, e páginas ou documentos
- * eletrônicos da Internet. Qualquer trecho de código de outra autoria que
- * uma citação para o  não a minha está destacado com  autor e a fonte do
- * código, e estou ciente que estes trechos não serão considerados para fins
- * de avaliação. Alguns trechos do código podem coincidir com de outros
- * colegas pois estes foram discutidos em sessões tutorias.
+ * Declaro que este c?digo foi elaborado por n?s de forma colaborativa e
+ * n?o cont?m nenhum trecho de c?digo de outro colega ou de outro autor,
+ * tais como provindos de livros e apostilas, e p?ginas ou documentos
+ * eletr?nicos da Internet. Qualquer trecho de c?digo de outra autoria que
+ * uma cita??o para o  n?o a minha est? destacado com  autor e a fonte do
+ * c?digo, e estou ciente que estes trechos n?o ser?o considerados para fins
+ * de avalia??o. Alguns trechos do c?digo podem coincidir com de outros
+ * colegas pois estes foram discutidos em sess?es tutorias.
  */
 package thread;
 
 import com.google.gson.Gson;
-import java.io.ByteArrayInputStream;
-import java.io.ObjectInputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,27 +35,57 @@ public class ThreadOuvinte implements IMqttMessageListener{
 
     private HashMap<String, Object> data_base;
     private static FilaPrioridade pacientes = new FilaPrioridade();
+    private boolean cloud;
     
-    public static Iterator pacientes (){
-        return pacientes.getIterator();
+    public static FilaPrioridade getPacientes(){
+        return pacientes;
     }
 
-    public ThreadOuvinte(HashMap<String, Object> data_base, String serverURI, String user, String password, String topic, int qos) {
+
+    public ThreadOuvinte(HashMap<String, Object> data_base, boolean cloud, String serverURI, String user, String password, String topic, int qos) {
         this.data_base = data_base;
+        this.cloud = cloud;
         OuvinteInterno clienteMQTT = new OuvinteInterno(serverURI,user,password);
         clienteMQTT.iniciar();
         clienteMQTT.subscribe(qos, this, topic);
         
     }
 
-    public void messageArrived(String string, MqttMessage mm) throws Exception {
-        ObjectInputStream objStream = new ObjectInputStream(new ByteArrayInputStream(mm.getPayload()));
-        Paciente[] pacientesStream = (Paciente[])objStream.readObject();
+    @Override
+    public void messageArrived(String topic, MqttMessage mm) throws Exception {
+        if(this.cloud){
+            System.out.println("Thread ");
+            FilaPrioridade.qtd_list(5);
+            //FilaPrioridade.qtd_list(Integer.parseInt(new String(mm.getPayload())));
+        }else{
+            this.listeningSensor(mm);
+        }
+    }
+    
+    private void listeningSensor(MqttMessage mm){
+        String body = new String(mm.getPayload());
         
-        for(int i = 0; i < pacientesStream.length; i++){
-            System.out.println(pacientesStream[i]);
-            pacientes.remove(pacientesStream[i]);
-            pacientes.add(pacientesStream[i]);
+        try{
+            Gson gson = new Gson(); // Or use new GsonBuilder().create();
+            Paciente paciente = gson.fromJson((String) body, Paciente.class);
+            Paciente pacienteBD = (Paciente)data_base.get(paciente.getCpf());
+
+            if (pacienteBD != null) {
+                pacienteBD.setFreqCardiaca(paciente.getFreqCardiaca());
+                pacienteBD.setPressaoArterial(paciente.getPressaoArterial());
+                pacienteBD.setTemperatura(paciente.getTemperatura());
+                pacienteBD.setSaturacao(paciente.getSaturacao());
+                pacienteBD.setNome(paciente.getNome());
+                pacienteBD.setGravidade(paciente.getGravidade());
+                pacienteBD.setFreqRespiratoria(paciente.getFreqRespiratoria());
+            }else{
+                data_base.put(paciente.getCpf(), paciente);
+                pacienteBD = paciente;
+            }
+            pacientes.remove(pacienteBD);
+            pacientes.add(pacienteBD);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
         }
         
     }
@@ -101,7 +129,7 @@ class OuvinteInterno implements MqttCallbackExtended {
         try {
             return client.subscribeWithResponse(topicos, qoss, listners);
         } catch (MqttException ex) {
-            System.out.println(String.format("Ouvinte: Erro ao se inscrever nos tÃ³picos %s - %s", Arrays.asList(topicos), ex));
+            System.out.println(String.format("Ouvinte: Erro ao se inscrever nos tópicos %s - %s", Arrays.asList(topicos), ex));
             return null;
         }
     }
@@ -113,7 +141,7 @@ class OuvinteInterno implements MqttCallbackExtended {
         try {
             client.unsubscribe(topicos);
         } catch (MqttException ex) {
-            System.out.println(String.format("Ouvinte: Erro ao se desinscrever no tÃ³pico %s - %s", Arrays.asList(topicos), ex));
+            System.out.println(String.format("Ouvinte: Erro ao se desinscrever no tópico %s - %s", Arrays.asList(topicos), ex));
         }
     }
 
@@ -143,7 +171,7 @@ class OuvinteInterno implements MqttCallbackExtended {
 
     @Override
     public void connectionLost(Throwable thrwbl) {
-        System.out.println("Ouvinte: ConexÃ£o com o broker perdida -" + thrwbl);
+        System.out.println("Ouvinte: Conexão com o broker perdida -" + thrwbl);
     }
 
     @Override

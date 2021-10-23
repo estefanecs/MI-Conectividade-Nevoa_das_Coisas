@@ -27,7 +27,7 @@ public class Sensor extends Thread {
         Paciente paciente = new Paciente(nome, cpf, gravidade);
 
         //Cria um publicador e inicia
-        Editor publicador = new Editor("tcp://broker.mqttdashboard.com:1883");
+        Editor publicador = new Editor("tcp://localhost:1883");
         publicador.iniciar();
 
         String mensagem;

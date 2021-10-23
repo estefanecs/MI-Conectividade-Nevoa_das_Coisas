@@ -1,16 +1,16 @@
 /**
- * Componente Curricular: Módulo Integrado de Concorrência e Conectividade
- * Autor: Cleyton Almeida da Silva, Estéfane Carmo de Souza e Matheus Nascimento
+ * Componente Curricular: Mï¿½dulo Integrado de Concorrï¿½ncia e Conectividade
+ * Autor: Cleyton Almeida da Silva, Estï¿½fane Carmo de Souza e Matheus Nascimento
  * Data: 11/10/2021
  *
- * Declaro que este código foi elaborado por nós de forma colaborativa e
- * não contém nenhum trecho de código de outro colega ou de outro autor,
- * tais como provindos de livros e apostilas, e páginas ou documentos
- * eletrônicos da Internet. Qualquer trecho de código de outra autoria que
- * uma citação para o  não a minha está destacado com  autor e a fonte do
- * código, e estou ciente que estes trechos não serão considerados para fins
- * de avaliação. Alguns trechos do código podem coincidir com de outros
- * colegas pois estes foram discutidos em sessões tutorias.
+ * Declaro que este cï¿½digo foi elaborado por nï¿½s de forma colaborativa e
+ * nï¿½o contï¿½m nenhum trecho de cï¿½digo de outro colega ou de outro autor,
+ * tais como provindos de livros e apostilas, e pï¿½ginas ou documentos
+ * eletrï¿½nicos da Internet. Qualquer trecho de cï¿½digo de outra autoria que
+ * uma citaï¿½ï¿½o para o  nï¿½o a minha estï¿½ destacado com  autor e a fonte do
+ * cï¿½digo, e estou ciente que estes trechos nï¿½o serï¿½o considerados para fins
+ * de avaliaï¿½ï¿½o. Alguns trechos do cï¿½digo podem coincidir com de outros
+ * colegas pois estes foram discutidos em sessï¿½es tutorias.
  */
 package model;
 
@@ -19,9 +19,9 @@ import java.util.Comparator;
 import java.util.Objects;
 
 /**
- * Esta classe é para objetos do tipo Paciente, contendo seus atributos como
- * nome, cpf, temperatura, frequencia cardiaca, frequencia respiratória, pressão
- * arterial, saturação do oxigênio e o estado de gravidade do paciente.
+ * Esta classe ï¿½ para objetos do tipo Paciente, contendo seus atributos como
+ * nome, cpf, temperatura, frequencia cardiaca, frequencia respiratï¿½ria, pressï¿½o
+ * arterial, saturaï¿½ï¿½o do oxigï¿½nio e o estado de gravidade do paciente.
  *
  */
 public class Paciente implements Comparable<Paciente>, Comparator<Object>, Serializable {
@@ -36,16 +36,16 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object>, Seria
     private int freqRespiratoria;
 
     /**
-     * Método construtor para a classe Paciente
+     * Mï¿½todo construtor para a classe Paciente
      *
      * @param cpf - cpf do paciente
      * @param nome - nome do paciente
      * @param pressaoArterial - presao arterial do paciente
-     * @param freqCardiaca - frequência cardíaca do paciente
-     * @param saturacao - saturação do oxigênio do paciente
+     * @param freqCardiaca - frequï¿½ncia cardï¿½aca do paciente
+     * @param saturacao - saturaï¿½ï¿½o do oxigï¿½nio do paciente
      * @param temperatura - temperatura do paciente
      * @param gravidade - gravidade do paciente
-     * @param freqRespiratoria - frequência respiratória do paciente
+     * @param freqRespiratoria - frequï¿½ncia respiratï¿½ria do paciente
      */
     public Paciente(String cpf, String nome, int pressaoArterial, int freqCardiaca, int saturacao, int temperatura, int gravidade, int freqRespiratoria) {
         this.cpf = cpf;
@@ -67,7 +67,7 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object>, Seria
     }
 
     /**
-     * Método que altera o cpf do paciente
+     * Mï¿½todo que altera o cpf do paciente
      *
      * @param cpf - novo cpf
      */
@@ -76,7 +76,7 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object>, Seria
     }
 
     /**
-     * Método que retorna o nome do paciente
+     * Mï¿½todo que retorna o nome do paciente
      *
      * @return nome
      */
@@ -85,7 +85,7 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object>, Seria
     }
 
     /**
-     * Método que altera o nome do paciente
+     * Mï¿½todo que altera o nome do paciente
      *
      * @param nome - novo nome
      */
@@ -94,7 +94,7 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object>, Seria
     }
 
     /**
-     * Método que retorna a pressao do paciente
+     * Mï¿½todo que retorna a pressao do paciente
      *
      * @return pressaoArterial
      */
@@ -103,7 +103,7 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object>, Seria
     }
 
     /**
-     * Método que altera a pressão arterial do paciente
+     * Mï¿½todo que altera a pressï¿½o arterial do paciente
      *
      * @param pressaoArterial - nova pressao arterial
      */
@@ -112,7 +112,7 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object>, Seria
     }
 
     /**
-     * Método que retorna a frequencia cardiaca do paciente
+     * Mï¿½todo que retorna a frequencia cardiaca do paciente
      *
      * @return freqCardiaca
      */
@@ -121,16 +121,16 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object>, Seria
     }
 
     /**
-     * Método que altera a frequência cardíaca do paciente
+     * Mï¿½todo que altera a frequï¿½ncia cardï¿½aca do paciente
      *
-     * @param freqCardiaca - nova frequência cardíaca
+     * @param freqCardiaca - nova frequï¿½ncia cardï¿½aca
      */
     public void setFreqCardiaca(int freqCardiaca) {
         this.freqCardiaca = freqCardiaca;
     }
 
     /**
-     * Método que retorna a frequencia respiratoria do paciente
+     * Mï¿½todo que retorna a frequencia respiratoria do paciente
      *
      * @return freqRespiratoria
      */
@@ -139,16 +139,16 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object>, Seria
     }
 
     /**
-     * Método que altera a frequência respiratória do paciente
+     * Mï¿½todo que altera a frequï¿½ncia respiratï¿½ria do paciente
      *
-     * @param freqRespiratoria - nova frequência respiratória
+     * @param freqRespiratoria - nova frequï¿½ncia respiratï¿½ria
      */
     public void setFreqRespiratoria(int freqRespiratoria) {
         this.freqRespiratoria = freqRespiratoria;
     }
 
     /**
-     * Método que retorna a saturacao do oxigenio do paciente
+     * Mï¿½todo que retorna a saturacao do oxigenio do paciente
      *
      * @return saturacao
      */
@@ -157,16 +157,16 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object>, Seria
     }
 
     /**
-     * Método que altera a saturação do oxigênio do paciente
+     * Mï¿½todo que altera a saturaï¿½ï¿½o do oxigï¿½nio do paciente
      *
-     * @param saturacao - nova saturação do oxigênio
+     * @param saturacao - nova saturaï¿½ï¿½o do oxigï¿½nio
      */
     public void setSaturacao(int saturacao) {
         this.saturacao = saturacao;
     }
 
     /**
-     * Método que retorna a temperatua do paciente
+     * Mï¿½todo que retorna a temperatua do paciente
      *
      * @return temperatura
      */
@@ -175,7 +175,7 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object>, Seria
     }
 
     /**
-     * Método que altera a temperatura do paciente
+     * Mï¿½todo que altera a temperatura do paciente
      *
      * @param temperatura - nova temperatura
      */
@@ -184,7 +184,7 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object>, Seria
     }
 
     /**
-     * Método que retorna a gravidade do paciente
+     * Mï¿½todo que retorna a gravidade do paciente
      *
      * @return gravidade
      */
@@ -193,7 +193,7 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object>, Seria
     }
 
     /**
-     * Método que altera a gravidade do paciente
+     * Mï¿½todo que altera a gravidade do paciente
      *
      * @param gravidade - nova gravidade
      */
@@ -202,7 +202,7 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object>, Seria
     }
     
      /**
-     * Método toString da classe, que retorna todos os valores de cada atributo
+     * Mï¿½todo toString da classe, que retorna todos os valores de cada atributo
      * do paciente.
      *
      * @return String - dados do paciente
@@ -220,7 +220,7 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object>, Seria
     }
 
      /**
-     * Método que compara a gravidade do paciente
+     * Mï¿½todo que compara a gravidade do paciente
      *
      * @param p - paciente
      * @return int
@@ -230,7 +230,7 @@ public class Paciente implements Comparable<Paciente>, Comparator<Object>, Seria
         return p.gravidade - this.gravidade;
     }
     /**
-     * Método que compara a gravidade de dois pacientes
+     * Mï¿½todo que compara a gravidade de dois pacientes
      *
      * @param p1 - paciente 1
      * @param p2 - paciente 2
