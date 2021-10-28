@@ -18,7 +18,9 @@ import java.util.HashMap;
 import com.google.gson.Gson;
 import java.util.Iterator;
 import model.Paciente;
-import thread.ThreadOuvinte;
+import thread.*;
+import util.FilaPrioridade;
+import view.main;
 
 
 public class MedicoRouter implements Router {
@@ -71,20 +73,27 @@ public class MedicoRouter implements Router {
             int quantidade = 0;
             if (quant != null) {
                 quantidade = Integer.parseInt(quant);
+                if(ThreadCliente.getQtd_list() != quantidade){
+                    ThreadCliente.setQtd_list(quantidade);
+                    main.publicador.publicar("problema2/quantidadePaciente", quant.getBytes(), 0);
+                    ThreadOuvinte.setPacientes(new FilaPrioridade());
+                }
             }
             if (quantidade > 0) {
-                int temp = 0;
+                int count = 0;
                 System.out.println(i.hasNext());
-                while (i.hasNext() && temp < quantidade) {
-                    row = i.next();
+                row = i.next();
+                while (row !=null && count < quantidade) {
                     if (row instanceof Paciente) {
                         jsonBuilder.append(row.toString());
-                        if (i.hasNext()) {
+                        row = i.next();
+                        if (row != null) {
                             jsonBuilder.append(',');
                         }
                     }
-                    temp++;
+                    count++;
                 }
+                System.out.println("Json: " + count);
             } else {
                 while (i.hasNext()) {
                     row = i.next();
@@ -97,7 +106,7 @@ public class MedicoRouter implements Router {
 
                 }
             }
-
+            System.out.println("Fila"+ ThreadOuvinte.getPacientes().size());
             jsonBuilder.append(']');
             System.out.println(data_base.size());
             res[0] = "200";

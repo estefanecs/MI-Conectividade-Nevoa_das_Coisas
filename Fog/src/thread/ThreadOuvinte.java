@@ -54,9 +54,8 @@ public class ThreadOuvinte implements IMqttMessageListener{
     @Override
     public void messageArrived(String topic, MqttMessage mm) throws Exception {
         if(this.cloud){
-            System.out.println("Thread ");
-            FilaPrioridade.qtd_list(5);
-            //FilaPrioridade.qtd_list(Integer.parseInt(new String(mm.getPayload())));
+            //FilaPrioridade.qtd_list(5);
+            FilaPrioridade.qtd_list(Integer.parseInt(new String(mm.getPayload())));
         }else{
             this.listeningSensor(mm);
         }

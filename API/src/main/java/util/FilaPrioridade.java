@@ -215,7 +215,7 @@ public class FilaPrioridade {
      *
      * @return ArrayList- lista contendo os pacientes mais graves
      */
-    public ArrayList listarPacientesGraves() {
+    public ArrayList listarPacientesGrav() {
         No auxiliar = this.getFirst();
         ArrayList<String> lista = new ArrayList<>();
         int count = 0;

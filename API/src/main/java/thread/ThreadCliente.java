@@ -33,11 +33,20 @@ public class ThreadCliente extends Thread {
     private final Socket socket;
     private boolean conectado;
     private HashMap data_base_ref;
+    private static int qtd_list = 1;
     private Paciente paciente;
 
     public ThreadCliente(Socket cliente, HashMap data_base) {
         this.socket = cliente;
         this.data_base_ref = data_base;
+    }
+
+    public static int getQtd_list() {
+        return qtd_list;
+    }
+
+    public static void setQtd_list(int qtd_list) {
+        ThreadCliente.qtd_list = qtd_list;
     }
 
     @Override

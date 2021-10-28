@@ -29,7 +29,7 @@ import model.Paciente;
 public class FilaPrioridade {
 
     private No first;
-    private static int qtd_list = 5;
+    private static int qtd_list = 0;
     /**
      * M?todo que retorna o primeiro elemento da fila.
      *
@@ -242,6 +242,7 @@ public class FilaPrioridade {
                 auxiliar = auxiliar.getNext();
             }    
         }
+        System.out.println("Tamanho lista: " + lista.length);
         return lista;
     }
     

@@ -42,6 +42,14 @@ public class ThreadOuvinte implements IMqttMessageListener{
         return pacientes.getIterator();
     }
 
+    public static FilaPrioridade getPacientes() {
+        return pacientes;
+    }
+
+    public static void setPacientes(FilaPrioridade pacientes) {
+        ThreadOuvinte.pacientes = pacientes;
+    }
+
     public ThreadOuvinte(HashMap<String, Object> data_base, String serverURI, String user, String password, String topic, int qos) {
         this.data_base = data_base;
         OuvinteInterno clienteMQTT = new OuvinteInterno(serverURI,user,password);
@@ -53,13 +61,12 @@ public class ThreadOuvinte implements IMqttMessageListener{
     public void messageArrived(String string, MqttMessage mm) throws Exception {
         ObjectInputStream objStream = new ObjectInputStream(new ByteArrayInputStream(mm.getPayload()));
         Paciente[] pacientesStream = (Paciente[])objStream.readObject();
-        
         for(int i = 0; i < pacientesStream.length; i++){
             System.out.println(pacientesStream[i]);
             pacientes.remove(pacientesStream[i]);
             pacientes.add(pacientesStream[i]);
         }
-        
+        Paciente joao = null;
     }
 
 }

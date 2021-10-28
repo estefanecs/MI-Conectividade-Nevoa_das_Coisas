@@ -20,6 +20,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Editor;
 import thread.ThreadCliente;
 import thread.ThreadOuvinte;
 
@@ -27,8 +28,12 @@ import thread.ThreadOuvinte;
 public class main {
 
     public static HashMap<String, Object> data_base;
+    public static Editor publicador;
 
     public static void main(String[] args) {
+        publicador = new Editor("tcp://broker.mqttdashboard.com:1883");
+        publicador.iniciar();
+        
         data_base = new HashMap<String, Object>();
         ServerSocket serv = null;
         try {
