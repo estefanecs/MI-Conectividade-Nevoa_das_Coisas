@@ -18,13 +18,13 @@ import thread.Sensor;
 import com.github.javafaker.*;
 
 /**
- * Esta classe faz a criação de 10 sensores de pacientes por execução
+ * Esta classe faz a criação de 50 sensores de pacientes por execução
  */
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
 
-        for(int i=0; i < 10; i++){
+        for(int i=0; i < 50; i++){
             Faker faker = new Faker(); //Gera os dados fake;
             String nome = faker.name().fullName(); //Salva o nome
             String cpf = faker.number().digits(11); //Salva o cpf
