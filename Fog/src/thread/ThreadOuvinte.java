@@ -35,10 +35,8 @@ import util.FilaPrioridade;
  */
 public class ThreadOuvinte implements IMqttMessageListener{
 
-    private HashMap<String, Object> data_base; //Base de dados
+    private static HashMap<String, Object> data_base = new HashMap<>(); //Base de dados
     private static FilaPrioridade pacientes = new FilaPrioridade(); //Fila de pacientes
-    private boolean cloud; //Indica se os dados ouvidos são da núvem
-    
     /**
      * Método que retorna a instância da fila
      * @return FilaPrioridade - instancia da fila
@@ -47,9 +45,15 @@ public class ThreadOuvinte implements IMqttMessageListener{
         return pacientes;
     }
 
-    public ThreadOuvinte(HashMap<String, Object> data_base, boolean cloud, String serverURI, String user, String password, String topic, int qos) {
-        this.data_base = data_base;
-        this.cloud = cloud;
+    /**
+     * Método que retorna a instância da HashMap
+     * @return data_base - instancia da HashMap
+     */
+    public static HashMap<String, Object> getData_base() {
+        return data_base;
+    }
+    
+    public ThreadOuvinte(String serverURI, String user, String password, String topic, int qos) {
         OuvinteInterno clienteMQTT = new OuvinteInterno(serverURI,user,password);
         clienteMQTT.iniciar();
         clienteMQTT.subscribe(qos, this, topic);
@@ -58,11 +62,18 @@ public class ThreadOuvinte implements IMqttMessageListener{
 
     @Override
     public void messageArrived(String topic, MqttMessage mm) throws Exception {
-        if(this.cloud){
-            //FilaPrioridade.qtd_list(5);
-            FilaPrioridade.qtd_list(Integer.parseInt(new String(mm.getPayload())));
-        }else{
-            this.listeningSensor(mm);
+        String body = new String(mm.getPayload());
+        switch (topic) {
+            case "problema2/pacienteMonitora":
+                new Monitora().publicar(body);
+                break;
+            case "problema2/quantidadePaciente":
+                //FilaPrioridade.qtd_list(5);
+                FilaPrioridade.qtd_list(Integer.parseInt(body));
+                break;
+            default:
+                this.listeningSensor(mm);
+                break;
         }
     }
     

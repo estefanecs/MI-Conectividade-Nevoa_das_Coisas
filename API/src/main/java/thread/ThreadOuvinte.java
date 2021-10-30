@@ -16,6 +16,7 @@ package thread;
 
 import com.google.gson.Gson;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -37,7 +38,6 @@ public class ThreadOuvinte implements IMqttMessageListener{
 
     private HashMap<String, Object> data_base;
     private static FilaPrioridade pacientes = new FilaPrioridade();
-    
     public static Iterator pacientes (){
         return pacientes.getIterator();
     }
@@ -45,6 +45,7 @@ public class ThreadOuvinte implements IMqttMessageListener{
     public static FilaPrioridade getPacientes() {
         return pacientes;
     }
+
 
     public static void setPacientes(FilaPrioridade pacientes) {
         ThreadOuvinte.pacientes = pacientes;
@@ -58,18 +59,45 @@ public class ThreadOuvinte implements IMqttMessageListener{
         
     }
 
-    public void messageArrived(String string, MqttMessage mm) throws Exception {
+    @Override
+    public void messageArrived(String topic, MqttMessage mm) throws Exception {
+        if(topic.equals("problema2/dadosPaciente")){
+            listOfFog(mm, data_base);
+        }
+        else {
+            String body = new String(mm.getPayload());
+            Gson gson = new Gson(); // Or use new GsonBuilder().create();
+            Paciente paciente = gson.fromJson((String) body, Paciente.class);
+            updatePaciente(data_base, paciente);
+        }
+    }
+    private static void updatePaciente(HashMap data_base, Paciente newPaciente){
+        Paciente pacienteBD = (Paciente)data_base.get(newPaciente.getCpf());
+            if (pacienteBD != null) {
+                pacienteBD.setFreqCardiaca(newPaciente.getFreqCardiaca());
+                pacienteBD.setPressaoArterial(newPaciente.getPressaoArterial());
+                pacienteBD.setTemperatura(newPaciente.getTemperatura());
+                pacienteBD.setSaturacao(newPaciente.getSaturacao());
+                pacienteBD.setNome(newPaciente.getNome());
+                pacienteBD.setGravidade(newPaciente.getGravidade());
+                pacienteBD.setFreqRespiratoria(newPaciente.getFreqRespiratoria());
+                data_base.put(newPaciente.getCpf(), pacienteBD);
+
+            }else{
+                data_base.put(newPaciente.getCpf(), newPaciente);
+            }
+    }
+    private static void listOfFog(MqttMessage mm, HashMap data_base) throws IOException, ClassNotFoundException{
         ObjectInputStream objStream = new ObjectInputStream(new ByteArrayInputStream(mm.getPayload()));
         Paciente[] pacientesStream = (Paciente[])objStream.readObject();
         System.out.println("Quantidade recebida: " + pacientesStream.length);
-        for(int i = 0; i < pacientesStream.length; i++){
-            System.out.println(pacientesStream[i]);
-            pacientes.remove(pacientesStream[i]);
-            pacientes.add(pacientesStream[i]);
+        for (Paciente pacientesStream1 : pacientesStream) {
+            System.out.println(pacientesStream1);
+            pacientes.remove(pacientesStream1);
+            pacientes.add(pacientesStream1);
+            updatePaciente(data_base, pacientesStream1);
         }
-        Paciente joao = null;
     }
-
 }
 
 class OuvinteInterno implements MqttCallbackExtended {

@@ -46,6 +46,7 @@ public class main {
             System.out.println("Host: " + serv.toString());
             //Aguarda conexões
             new ThreadOuvinte(data_base, "tcp://broker.mqttdashboard.com:1883", null, null, "problema2/dadosPaciente", 2);
+            new ThreadOuvinte(data_base, "tcp://broker.mqttdashboard.com:1883", null, null, "problema2/pacienteMonitorado", 2);
 
             
             while (true) {

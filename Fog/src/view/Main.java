@@ -22,17 +22,18 @@ import thread.ThreadPublisher;
  * Classe Main para a Fog
  */
 public class Main {
-    private static HashMap<String, Object> data_base; //Base de dados
 
     public static void main(String[] args) {
      
-        data_base = new HashMap<>(); //Cria a instancia
 
         //Instancia a threadOuvinte, que recebe a quantidade de pacientes que devem ser listados
-        new ThreadOuvinte(data_base, true, "tcp://broker.mqttdashboard.com:1883", null, null, "problema2/quantidadePaciente", 2);
+        new ThreadOuvinte("tcp://broker.mqttdashboard.com:1883", null, null, "problema2/quantidadePaciente", 2);
         
         //Instancia a ThreadOuvinte, que recebe os dados dos dispositivos dos pacientes regionais
-        new ThreadOuvinte(data_base, false, "tcp://localhost:1883", null, null, "problema2/dadosPaciente", 2);
+        new ThreadOuvinte("tcp://localhost:1883", null, null, "problema2/dadosPaciente", 2);
+        
+        //Instancia a ThreadOuvinte, que recebe qual paciente o server quer monitorar
+        new ThreadOuvinte("tcp://broker.mqttdashboard.com:1883", null, null, "problema2/pacienteMonitora", 2);
         
         //Instancia a ThreadPublisher, que publica os dados dos N pacientes na núvem
         new ThreadPublisher().start();

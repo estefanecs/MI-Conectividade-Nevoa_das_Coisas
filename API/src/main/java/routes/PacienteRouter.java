@@ -17,6 +17,7 @@ package routes;
 import java.util.HashMap;
 import com.google.gson.Gson;
 import model.Paciente;
+import view.main;
 
 
 public class PacienteRouter implements Router {
@@ -53,6 +54,8 @@ public class PacienteRouter implements Router {
             Gson gson = new Gson(); // Or use new GsonBuilder().create();
             HashMap<String, String> entries = gson.fromJson((String) body, HashMap.class);
             String cpf = entries.get("cpf");
+            main.publicador.publicar("problema2/pacienteMonitora", cpf.getBytes(), 0);
+
             Boolean exists = data_base.containsKey(cpf);
             if (exists) {
                 Object row = data_base.get(cpf);
