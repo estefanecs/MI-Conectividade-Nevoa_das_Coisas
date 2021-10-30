@@ -34,6 +34,7 @@ public class TelaInicial extends javax.swing.JFrame {
         initComponents(); //inicializa os componentes
         this.exitThread = false;
         reportController = new PacienteController();
+        //Cria e starta a thread
         Thread threadListPacientes = new Thread(listPacientes, "Listagem pacientes");
         threadListPacientes.start();
 
@@ -61,18 +62,13 @@ public class TelaInicial extends javax.swing.JFrame {
                             Object[] row = {
                                 paciente1.getNome(),
                                 paciente1.getCpf(),
-                                paciente1.getGravidade(),
-                                paciente1.getPressaoArterial(),
-                                paciente1.getFreqCardiaca(),
-                                paciente1.getFreqRespiratoria(),
-                                paciente1.getTemperatura(),
-                                paciente1.getSaturacao()
+                                paciente1.getGravidade()
                             };
                             model.addRow(row);
                             System.out.println("Nome: " + paciente1.getNome());
                        }
                     }
-                    Thread.sleep(1000);
+                    Thread.sleep(1000); //Dorme por um tempo
                 } catch (Exception e) {
                 }
             }
@@ -112,9 +108,8 @@ public class TelaInicial extends javax.swing.JFrame {
         jLabel2.setText("Insira a quantidade de pacientes mais graves que deseja listar");
 
         quantidadePacientes.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        quantidadePacientes.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        quantidadePacientes.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
 
-        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(255, 153, 0), new java.awt.Color(255, 153, 0), null, new java.awt.Color(255, 102, 0)));
 
         tblPacientes.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -124,14 +119,14 @@ public class TelaInicial extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nome", "CPF", "Gravidade", "Pressão", "F. Cardíaca", "F. Respiratória", "Temperatura", "Saturacao"
+                "Nome", "CPF", "Gravidade"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {

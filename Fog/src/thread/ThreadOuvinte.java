@@ -1,23 +1,22 @@
 /**
- * Componente Curricular: M?dulo Integrado de Concorr?ncia e Conectividade
- * Autor: Cleyton Almeida da Silva, Est?fane Carmo de Souza e Matheus Nascimento
+ * Componente Curricular: Módulo Integrado de Concorrência e Conectividade
+ * Autor: Cleyton Almeida da Silva, Estéfane Carmo de Souza e Matheus Nascimento
  * Data: 11/10/2021
  *
- * Declaro que este c?digo foi elaborado por n?s de forma colaborativa e
- * n?o cont?m nenhum trecho de c?digo de outro colega ou de outro autor,
- * tais como provindos de livros e apostilas, e p?ginas ou documentos
- * eletr?nicos da Internet. Qualquer trecho de c?digo de outra autoria que
- * uma cita??o para o  n?o a minha est? destacado com  autor e a fonte do
- * c?digo, e estou ciente que estes trechos n?o ser?o considerados para fins
- * de avalia??o. Alguns trechos do c?digo podem coincidir com de outros
- * colegas pois estes foram discutidos em sess?es tutorias.
+ * Declaro que este código foi elaborado por nós de forma colaborativa e
+ * não contém nenhum trecho de código de outro colega ou de outro autor,
+ * tais como provindos de livros e apostilas, e páginas ou documentos
+ * eletrônicos da Internet. Qualquer trecho de código de outra autoria que
+ * uma citação para o  não a minha está destacado com  autor e a fonte do
+ * código, e estou ciente que estes trechos não serão considerados para fins
+ * de avaliação. Alguns trechos do código podem coincidir com de outros
+ * colegas pois estes foram discutidos em sessões tutorias.
  */
 package thread;
 
 import com.google.gson.Gson;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import model.Paciente;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
@@ -31,16 +30,22 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 import util.FilaPrioridade;
 
+/**
+ * Thread que escuta tópicos de um broker
+ */
 public class ThreadOuvinte implements IMqttMessageListener{
 
-    private HashMap<String, Object> data_base;
-    private static FilaPrioridade pacientes = new FilaPrioridade();
-    private boolean cloud;
+    private HashMap<String, Object> data_base; //Base de dados
+    private static FilaPrioridade pacientes = new FilaPrioridade(); //Fila de pacientes
+    private boolean cloud; //Indica se os dados ouvidos são da núvem
     
+    /**
+     * Método que retorna a instância da fila
+     * @return FilaPrioridade - instancia da fila
+     */
     public static FilaPrioridade getPacientes(){
         return pacientes;
     }
-
 
     public ThreadOuvinte(HashMap<String, Object> data_base, boolean cloud, String serverURI, String user, String password, String topic, int qos) {
         this.data_base = data_base;

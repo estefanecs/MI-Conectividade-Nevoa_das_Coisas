@@ -14,25 +14,22 @@
  */
 package view;
 
-import java.util.Scanner;
-import model.Editor;
-import model.Paciente;
 import thread.Sensor;
 import com.github.javafaker.*;
+
 /**
- * Esta classe faz a criação do paciente, a criação do publicador e fica sempre
- * atualizando os dados do paciente e enviando para o broker.
+ * Esta classe faz a criação de 10 sensores de pacientes por execução
  */
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
 
         for(int i=0; i < 10; i++){
-            Faker faker = new Faker();
-            String nome = faker.name().fullName();
-            String cpf = faker.number().digits(11);
-            String gravidade = faker.bool().bool() ? "normal" : "grave";
-            new Sensor(cpf, nome, gravidade).start();
+            Faker faker = new Faker(); //Gera os dados fake;
+            String nome = faker.name().fullName(); //Salva o nome
+            String cpf = faker.number().digits(11); //Salva o cpf
+            String gravidade = faker.bool().bool() ? "normal" : "grave"; //Gera o padrão de gravidade
+            new Sensor(cpf, nome, gravidade).start(); //Inicia o sensor
         }
     }
 

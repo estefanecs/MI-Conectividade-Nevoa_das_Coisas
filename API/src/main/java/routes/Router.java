@@ -16,11 +16,14 @@ package routes;
 
 import java.util.HashMap;
 
+/**
+ * Interface Router que determina o formato das rotas da API
+ */
 public interface Router {
     
-    public Object[] GET(Object body, HashMap data_base);
-    public Object[] POST(Object body, HashMap data_base);
-    public Object[] PUT(Object body, HashMap data_base);
-    public Object[] DELETE(Object body, HashMap data_base);
+    public Object[] GET(Object body, HashMap data_base); //Rota GET
+    public Object[] POST(Object body, HashMap data_base); //Rota POST
+    public Object[] PUT(Object body, HashMap data_base); //Rota PUT
+    public Object[] DELETE(Object body, HashMap data_base);  //Rota DELETE
     
 }

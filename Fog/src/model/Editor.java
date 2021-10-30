@@ -1,16 +1,16 @@
 /**
- * Componente Curricular: M√≥dulo Integrado de Concorr√™ncia e Conectividade
- * Autor: Cleyton Almeida da Silva, Est√©fane Carmo de Souza e Matheus Nascimento
+ * Componente Curricular: MÛdulo Integrado de ConcorrÍncia e Conectividade
+ * Autor: Cleyton Almeida da Silva, EstÈfane Carmo de Souza e Matheus Nascimento
  * Data: 04/10/2021
  *
- * Declaro que este c√≥digo foi elaborado por n√≥s de forma colaborativa e
- * n√£o cont√©m nenhum trecho de c√≥digo de outro colega ou de outro autor,
- * tais como provindos de livros e apostilas, e p√°ginas ou documentos
- * eletr√¥nicos da Internet. Qualquer trecho de c√≥digo de outra autoria que
- * uma cita√ß√£o para o  n√£o a minha est√° destacado com  autor e a fonte do
- * c√≥digo, e estou ciente que estes trechos n√£o ser√£o considerados para fins
- * de avalia√ß√£o. Alguns trechos do c√≥digo podem coincidir com de outros
- * colegas pois estes foram discutidos em sess√µes tutorias.
+ * Declaro que este cÛdigo foi elaborado por nÛs de forma colaborativa e
+ * n„o contÈm nenhum trecho de cÛdigo de outro colega ou de outro autor,
+ * tais como provindos de livros e apostilas, e p·ginas ou documentos
+ * eletrÙnicos da Internet. Qualquer trecho de cÛdigo de outra autoria que
+ * uma citaÁ„o para o  n„o a minha est· destacado com  autor e a fonte do
+ * cÛdigo, e estou ciente que estes trechos n„o ser„o considerados para fins
+ * de avaliaÁ„o. Alguns trechos do cÛdigo podem coincidir com de outros
+ * colegas pois estes foram discutidos em sessıes tutorias.
  */
 package model;
 
@@ -24,9 +24,9 @@ import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 
 
 /**
- * Esta classe √© para objetos do tipo Editor, um cliente do servidor MQTT. Contem atributos como o
- * endere√ßo do servidor, o cliente e as op√ß√µes de conex√µes do MQTT Exemplo de
- * uso:
+ * Esta classe sao para objetos do tipo Editor, um cliente do servidor MQTT. Contem atributos como o
+ * endereÁo do servidor, o cliente e as opcoes de conexoes do MQTT.
+ * Exemplo de uso:
  *
  * Editor editor= new Paciente("servidor");
  *
@@ -35,11 +35,11 @@ public class Editor implements MqttCallbackExtended {
 
     private final String servidor; //URL do servidor
     private MqttClient client; //Cliente MQTT
-    private final MqttConnectOptions mqttOptions; //Op√ß√µes de conex√µes
+    private final MqttConnectOptions mqttOptions; //OpÁıes de conexoes
  
     /**
      * Construtor da classe
-     * @param servidor - endere√ßo do servidor
+     * @param servidor - endereco do servidor
      */
     public Editor(String servidor) {
         this.servidor = servidor;
@@ -53,22 +53,22 @@ public class Editor implements MqttCallbackExtended {
     }
     
     /**
-     * M√©todo que inicia a execu√ß√£o do cliente editor
+     * Metodo que inicia a execucao do cliente editor
      */
     public void iniciar() {
         try {
             System.out.println("Conectando ao broker MQTT " + servidor);
-            //Cria o cliente e inciia a conex√£o
+            //Cria o cliente e inciia a conex„o
             client = new MqttClient(servidor, String.format("cliente_editor_java_%d", System.currentTimeMillis()), new MqttDefaultFilePersistence(System.getProperty("java.io.tmpdir")));
             client.setCallback(this);
             client.connect(mqttOptions); 
-        } catch (MqttException ex) { //Se n√£o conectar
+        } catch (MqttException ex) { //Se n„o conectar
             System.out.println("Erro ao tentar conectar-se com o broker MQTT " + servidor + " - " + ex);
         }
     }
     
     /**
-     * M√©todo que finaliza a conex√£o com o broker MQTT apenas se houver cliente
+     * MÈtodo que finaliza a conex„o com o broker MQTT apenas se houver cliente
      * e estiver conectado com o broker
      */
     public void finalizar() {
@@ -83,9 +83,9 @@ public class Editor implements MqttCallbackExtended {
     }
 
     /**
-     * M√©todo que realiza a publica√ß√£o de uma informa√ß√£o em um t√≥pico
+     * Metodo que realiza a publicaÁ„o de uma informaÁ„o em um tÛpico
      * @param topico -topico a ser publicado 
-     * @param informacao - informa√ß√£o
+     * @param informacao - informaÁ„o
      * @param qos - variavel de controle de qualidade de mensagem
      */
     public void publicar(String topico, byte[] informacao, int qos) {
@@ -94,7 +94,7 @@ public class Editor implements MqttCallbackExtended {
     
     /**
      * **
-     * M√©todo que realiza a publica√ß√£o de uma informa√ß√£o em um t√≥pico
+     * Metodo que realiza a publicaÁ„o de uma informaÁ„o em um topico
      * @param topico -topico a ser publicado 
      * @param mensagem - mensagem
      * @param qos - variavel de controle de qualidade de mensagem
@@ -103,18 +103,18 @@ public class Editor implements MqttCallbackExtended {
     public synchronized void publicar(String topico, byte[] mensagem, int qos, boolean retained) {
         try {
             if (client.isConnected()) { //Se o cliente estiver conectado ao broker MQTT
-                client.publish(topico, mensagem, qos, retained); //publica a informa√ß√£o no t√≥pico
+                client.publish(topico, mensagem, qos, retained); //publica a informacao no topico
                 System.out.println(String.format("Informa√ß√£o publicada no t√≥pico %s com sucesso", topico));
             } else { //Se estiver desconectado
                 System.out.println("N√£o foi possivel publicar no t√≥pico " + topico+", pois o editor est√° desconectado");
             }
-        } catch (MqttException ex) { //Se houver erros ao publicar o t√≥pico
+        } catch (MqttException ex) { //Se houver erros ao publicar o topico
             System.out.println("Erro ao publicar o t√≥pico:" + topico + ": " + ex);
         }
     }
 
      /**
-     * M√©todo que sinaliza se a conex√£o com o broker foi perdida
+     * MÈtodo que sinaliza se a conex√£o com o broker foi perdida
      * @param thrwbl 
      */
     @Override
@@ -123,9 +123,9 @@ public class Editor implements MqttCallbackExtended {
     }
     
     /**
-     * M√©todo que indica se o editor conseguiu conectar-se ou reconectar-se com o broker
+     * MÈtodo que indica se o editor conseguiu conectar-se ou reconectar-se com o broker
      * @param reconnect
-     * @param servidor - endere√ßo do servidor 
+     * @param servidor - endereÁo do servidor 
      */
     @Override
     public void connectComplete(boolean reconnect, String servidor) {

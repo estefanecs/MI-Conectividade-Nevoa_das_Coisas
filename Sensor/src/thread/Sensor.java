@@ -1,6 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+/**
+ * Componente Curricular: Módulo Integrado de Concorrência e Conectividade
+ * Autor: Cleyton Almeida da Silva, Estéfane Carmo de Souza e Matheus Nascimento
+ * Data: 02/10/2021
+ *
+ * Declaro que este código foi elaborado por nós de forma colaborativa e
+ * não contém nenhum trecho de código de outro colega ou de outro autor,
+ * tais como provindos de livros e apostilas, e páginas ou documentos
+ * eletrônicos da Internet. Qualquer trecho de código de outra autoria que
+ * uma citação para o  não a minha está destacado com  autor e a fonte do
+ * código, e estou ciente que estes trechos não serão considerados para fins
+ * de avaliação. Alguns trechos do código podem coincidir com de outros
+ * colegas pois estes foram discutidos em sessões tutorias.
  */
 package thread;
 
@@ -10,12 +20,18 @@ import model.Editor;
 import model.Paciente;
 
 /**
- *
- * @author matheusnascimento
+ * Esta classe faz a criação do paciente, a criação do publicador e fica sempre
+ * atualizando os dados do paciente e enviando para o broker.
  */
 public class Sensor extends Thread {
     private String cpf, nome, gravidade;
-    
+
+    /**
+     * Método que cria um sensor
+     * @param cpf - cpf do paciente
+     * @param nome -nome do paciente
+     * @param gravidade - gravidade do paciene
+     */
     public Sensor(String cpf,String nome, String gravidade) {
         this.cpf = cpf;
         this.nome = nome;
@@ -24,6 +40,7 @@ public class Sensor extends Thread {
     
     @Override
     public void run() {
+        //Cria o paciente com os nomes enviados para o sensor
         Paciente paciente = new Paciente(nome, cpf, gravidade);
 
         //Cria um publicador e inicia
@@ -31,8 +48,8 @@ public class Sensor extends Thread {
         publicador.iniciar();
 
         String mensagem;
-
-        while (true) {
+        
+        while (true) { //Fica constantemente enviando dados para o broker
             try {
                 sleep(1000);
             } catch (InterruptedException ex) {

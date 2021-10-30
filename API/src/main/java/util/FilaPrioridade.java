@@ -210,46 +210,42 @@ public class FilaPrioridade {
     }
 
     /**
-     * Método que lista todos os 7 pacientes mais graves. Só são considerados
-     * pacientes graves, com gravidade >=3
+     * Método que obtém o iterator
      *
-     * @return ArrayList- lista contendo os pacientes mais graves
+     * @return Iterator
      */
-    public ArrayList listarPacientesGrav() {
-        No auxiliar = this.getFirst();
-        ArrayList<String> lista = new ArrayList<>();
-        int count = 0;
-        while (count < 7 && auxiliar != null) {
-            if (auxiliar.getConteudo().getGravidade() >= 3) { //Só adiciona se a gravidade for maior ou igual a 3
-                String gravidade = " |Gravidade: " + auxiliar.getConteudo().getGravidade();
-                String dado = auxiliar.getConteudo().getNome().concat(gravidade);
-                lista.add(dado);
-            }
-            auxiliar = auxiliar.getNext();
-            count++;
-        }
-        return lista;
-    }
-
     public Iterator getIterator() {
         return new it();
     }
 
+    /**
+     * Implementa a classe Iterator
+     */
     private class it implements Iterator {
 
         private No atual = first;
-        
+
+        /**
+         * Método que verifica se tem proximo nó
+         *
+         * @return true- se tem
+         */
         @Override
         public boolean hasNext() {
             return first != null && atual != null;
         }
 
+        /**
+         * Método que retorna o conteudo do nó atual
+         *
+         * @return Object - conteudo do nó
+         */
         @Override
         public Object next() {
             if (atual != null) {
-                Object ret = atual.getConteudo();
+                Object conteudo = atual.getConteudo();
                 atual = atual.getNext();
-                return ret;
+                return conteudo;
             }
             return null;
         }

@@ -89,6 +89,106 @@ public class RespostaHTTP {
         return this.toString().getBytes();
     }
 
+    /**
+     * Método que retorna o conteúdo da resposta
+     * @return byte[] - conteudo
+     */
+    public byte[] getConteudoResposta() {
+        return conteudoResposta;
+    }
+    
+    /**
+     * Método que altera o conteúdo da resposta.
+     * @param conteudoResposta - novo conteúdo
+     */
+    public void setConteudoResposta(byte[] conteudoResposta) {
+        this.conteudoResposta = conteudoResposta;
+    }
+    
+    /**
+     * Método que retorna o protoloco da resposta
+     * @return String - protocolo
+     */
+    public String getProtocolo() {
+        return protocolo;
+    }
+
+    /**
+     * Método que altera o protocolo da resposta
+     * @param protocolo - novo protocolo
+     */
+    public void setProtocolo(String protocolo) {
+        this.protocolo = protocolo;
+    }
+
+    /** 
+     * Método que retorna o código da resposta
+     * @return String - codigo
+     */
+    public String getCodigoResposta() {
+        return codigoResposta;
+    }
+
+    /**
+     * Método que altera o codigo de resposta
+     * @param codigoResposta - novo codigo
+     */
+    public void setCodigoResposta(String codigoResposta) {
+        this.codigoResposta = codigoResposta;
+    }
+
+    /**
+     * Método que obtém a mensagem da resposta
+     * @return String - mensagem
+     */
+    public String getMensagem() {
+        return mensagem;
+    }
+
+    /**
+     * Método que altera a mensagem da resposta
+     * @param mensagem - nova mensagem
+     */
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
+    }
+
+    /**
+     * Método que retorna a lista de cabeçalhos da resposta
+     * @return Map - lista
+     */
+    public Map<String, List> getCabecalhos() {
+        return cabecalhos;
+    }
+
+    /**
+     * Método que altera a lista de cabeçalhos da resposta
+     * @param cabecalhos - nova lista
+     */
+    public void setCabecalhos(Map<String, List> cabecalhos) {
+        this.cabecalhos = cabecalhos;
+    }
+
+    /**
+     * Método que obtém o buffer de saída
+     * @return OutputStream
+     */
+    public OutputStream getSaida() {
+        return saida;
+    }
+
+    /**
+     * Método que altera o buffer de saída
+     * @param saida - novo buffer
+     */
+    public void setSaida(OutputStream saida) {
+        this.saida = saida;
+    }
+    
+    /**
+     * Método que retorna os dados da reposta HTTP
+     * @return String
+     */
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
@@ -101,54 +201,5 @@ public class RespostaHTTP {
         str.append("\r\n");
         return str.toString();
     }
-
-    public byte[] getConteudoResposta() {
-        return conteudoResposta;
-    }
-
-    public void setConteudoResposta(byte[] conteudoResposta) {
-        this.conteudoResposta = conteudoResposta;
-    }
-
-    public String getProtocolo() {
-        return protocolo;
-    }
-
-    public void setProtocolo(String protocolo) {
-        this.protocolo = protocolo;
-    }
-
-    public String getCodigoResposta() {
-        return codigoResposta;
-    }
-
-    public void setCodigoResposta(String codigoResposta) {
-        this.codigoResposta = codigoResposta;
-    }
-
-    public String getMensagem() {
-        return mensagem;
-    }
-
-    public void setMensagem(String mensagem) {
-        this.mensagem = mensagem;
-    }
-
-    public Map<String, List> getCabecalhos() {
-        return cabecalhos;
-    }
-
-    public void setCabecalhos(Map<String, List> cabecalhos) {
-        this.cabecalhos = cabecalhos;
-    }
-
-    public OutputStream getSaida() {
-        return saida;
-    }
-
-    public void setSaida(OutputStream saida) {
-        this.saida = saida;
-    }
-    
     
 }

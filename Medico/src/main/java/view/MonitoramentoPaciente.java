@@ -15,7 +15,6 @@
 package view;
 
 import controller.PacienteController;
-import javax.swing.JOptionPane;
 import model.Paciente;
 
 public class MonitoramentoPaciente extends javax.swing.JFrame implements Runnable {
@@ -520,10 +519,10 @@ public class MonitoramentoPaciente extends javax.swing.JFrame implements Runnabl
 
                 //Notifica ao médico sobre a gravidade do paciente
                 String notificacao = "";
-                if (paciente.getGravidade() >= 5 && paciente.getGravidade() < 10) {
+                if (paciente.getGravidade() < 120) {
                     notificacao = "O paciente " + paciente.getNome() + " está em sinal de alerta.";
-                } else if (paciente.getGravidade() >= 10) {
-                    notificacao = "O estado de saúde do paciente " + paciente.getNome() + "é grave e deve procurar uma unidade de saúde urgentemente";
+                } else if (paciente.getGravidade() >= 120) {
+                    notificacao = "O estado de saúde do paciente " + paciente.getNome() + "é gravíssimo e deve procurar uma unidade de saúde urgentemente";
                 }
                 labelAlert.setText(notificacao);
                 Thread.sleep(500); //A thread dorme por um tempo

@@ -28,23 +28,40 @@ import model.Paciente;
 import util.RequisicaoHTTP;
 import util.RespostaHTTP;
 
+/**
+ * Classe que cria o cliente da API
+ * 
+ */
 public class ThreadCliente extends Thread {
 
-    private final Socket socket;
-    private boolean conectado;
-    private HashMap data_base_ref;
-    private static int qtd_list = 0;
-    private Paciente paciente;
+    private final Socket socket; //Socket
+    private boolean conectado; //Verifica a conex„o com o servidor
+    private HashMap data_base_ref; //Base de dados
+    private static int qtd_list = 0; //Quantidade de pacientes graves que devem ser listados
+    private Paciente paciente; //Paciente
 
+    /**
+     * MÈtodo construtor da classe
+     * @param cliente - cliente socket
+     * @param data_base - base de dados
+     */
     public ThreadCliente(Socket cliente, HashMap data_base) {
-        this.socket = cliente;
-        this.data_base_ref = data_base;
+        this.socket = cliente; //Cria o socket cliente
+        this.data_base_ref = data_base; //Salva a base de dados
     }
 
+    /**
+     * MÈtodo que retorna a quantidade de pacientes graves a serem listados
+     * @return int - quantidade
+     */
     public static int getQtd_list() {
         return qtd_list;
     }
 
+    /**
+     * MÈtodo que altera a quantidade de pacientes graves que devem ser listados
+     * @param qtd_list - nova quantidade
+     */
     public static void setQtd_list(int qtd_list) {
         ThreadCliente.qtd_list = qtd_list;
     }
@@ -84,10 +101,10 @@ public class ThreadCliente extends Thread {
                     resposta.setMensagem("Not Found");
                     resposta.setCodigoResposta("404");
                 }
-                //l√™ todo o conte√∫do do arquivo para bytes e gera o conteudo de resposta
+                //l√™ todo o conteudo do arquivo para bytes e gera o conteudo de resposta
                 //converte o formato para o GMT espeficicado pelo protocolo HTTP
                 String dataFormatada = format.format(new Date());
-                //cabe√ßalho padr√£o da resposta HTTP/1.1
+                //cabecalho padraoo da resposta HTTP/1.1
                 resposta.setCabecalho("Date", dataFormatada);
                 resposta.setCabecalho("Server", "PBL server/0.1");
                 resposta.setCabecalho("Content-Type", "application/json");
@@ -106,11 +123,11 @@ public class ThreadCliente extends Thread {
                 }
             } finally {
                 try {
-                    socket.close();
+                    socket.close(); //fecha o socket
                 } catch (IOException ex) {
                     Logger.getLogger(ThreadCliente.class.getName()).log(Level.SEVERE, null, ex);
                 } finally {
-                    conectado = false;
+                    conectado = false; //n„o h· conex„o
                 }
             }
 
