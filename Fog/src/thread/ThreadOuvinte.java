@@ -68,7 +68,7 @@ public class ThreadOuvinte implements IMqttMessageListener{
     
     private void listeningSensor(MqttMessage mm){
         String body = new String(mm.getPayload());
-        
+        System.out.println("Dados recebebidos do sensor: "+body);
         try{
             Gson gson = new Gson(); // Or use new GsonBuilder().create();
             Paciente paciente = gson.fromJson((String) body, Paciente.class);

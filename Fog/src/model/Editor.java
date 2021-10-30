@@ -104,12 +104,12 @@ public class Editor implements MqttCallbackExtended {
         try {
             if (client.isConnected()) { //Se o cliente estiver conectado ao broker MQTT
                 client.publish(topico, mensagem, qos, retained); //publica a informacao no topico
-                System.out.println(String.format("Informação publicada no tópico %s com sucesso", topico));
+                System.out.println(String.format("Informa��o publicado no topico %s com sucesso", topico));
             } else { //Se estiver desconectado
-                System.out.println("Não foi possivel publicar no tópico " + topico+", pois o editor está desconectado");
+                System.out.println("N�o foi possivel publicar no topico " + topico+", pois o editor est� desconectado");
             }
         } catch (MqttException ex) { //Se houver erros ao publicar o topico
-            System.out.println("Erro ao publicar o tópico:" + topico + ": " + ex);
+            System.out.println("Erro ao publicar o topico:" + topico + ": " + ex);
         }
     }
 
@@ -119,7 +119,7 @@ public class Editor implements MqttCallbackExtended {
      */
     @Override
     public void connectionLost(Throwable thrwbl) {
-        System.out.println("Editor: Conexão com o broker perdida -" + thrwbl);
+        System.out.println("Editor: Conexao com o broker perdida -" + thrwbl);
     }
     
     /**

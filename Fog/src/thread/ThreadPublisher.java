@@ -52,7 +52,7 @@ public class ThreadPublisher extends Thread {
                 //Cria o buffer de saída
                 ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
                 ObjectOutputStream stream = new ObjectOutputStream(byteArray);
-                System.out.println(ThreadOuvinte.getPacientes().size());
+                System.out.println("Tamanho da fila de pacientes: "+ThreadOuvinte.getPacientes().size());
                 //Salva a lista dos pacientes
                 stream.writeObject(ThreadOuvinte.getPacientes().listarPacientesGraves());
                 System.out.println("Quantidade Enviada: " + ThreadOuvinte.getPacientes().listarPacientesGraves().length);

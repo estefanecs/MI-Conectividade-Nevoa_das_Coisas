@@ -239,7 +239,7 @@ public class FilaPrioridade {
      * @return Paciente[]- vetor contendo os pacientes mais graves
      */
     public Paciente[] listarPacientesGraves() {
-        System.out.println("size "+qtd_list(null));
+        System.out.println("Valor de qtd_list: "+qtd_list(null));
 
         No auxiliar = this.getFirst();
         Paciente[] lista= new Paciente[(qtd_list(null) > this.size() ? this.size(): qtd_list(null))];
@@ -251,7 +251,6 @@ public class FilaPrioridade {
                 auxiliar = auxiliar.getNext();
             }    
         }
-        System.out.println("Tamanho lista: " + lista.length);
         return lista;
     }
     
