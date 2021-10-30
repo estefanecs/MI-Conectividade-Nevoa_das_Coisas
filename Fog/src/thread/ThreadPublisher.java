@@ -44,7 +44,7 @@ public class ThreadPublisher extends Thread {
                 ObjectOutputStream stream = new ObjectOutputStream(byteArray);
                 System.out.println(ThreadOuvinte.getPacientes().size());
                 stream.writeObject(ThreadOuvinte.getPacientes().listarPacientesGraves());
-                System.out.println("here "+ ThreadOuvinte.getPacientes().listarPacientesGraves().length);
+                System.out.println("Quantidade Enviada: "+ ThreadOuvinte.getPacientes().listarPacientesGraves().length);
                 stream.flush();
                 stream.close();
                 byte[] bytes = byteArray.toByteArray();

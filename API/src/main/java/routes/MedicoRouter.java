@@ -79,36 +79,22 @@ public class MedicoRouter implements Router {
                     ThreadOuvinte.setPacientes(new FilaPrioridade());
                 }
             }
-            if (quantidade > 0) {
-                int count = 0;
-                System.out.println(i.hasNext());
-                row = i.next();
-                while (row !=null && count < quantidade) {
-                    if (row instanceof Paciente) {
-                        jsonBuilder.append(row.toString());
-                        row = i.next();
-                        if (row != null) {
-                            jsonBuilder.append(',');
-                        }
-                    }
-                    count++;
-                }
-                System.out.println("Json: " + count);
-            } else {
-                while (i.hasNext()) {
+            int count = 0;
+            System.out.println(i.hasNext());
+            row = i.next();
+            while (row !=null && count < quantidade) {
+                if (row instanceof Paciente) {
+                    jsonBuilder.append(row.toString());
                     row = i.next();
-                    if (row instanceof Paciente) {
-                        jsonBuilder.append(row.toString());
-                        if (i.hasNext()) {
-                            jsonBuilder.append(',');
-                        }
+                    if (row != null) {
+                        jsonBuilder.append(',');
                     }
-
                 }
+                count++;
             }
-            System.out.println("Fila"+ ThreadOuvinte.getPacientes().size());
             jsonBuilder.append(']');
-            System.out.println(data_base.size());
+            System.out.println("Json: " + count);
+            System.out.println("Fila: "+ ThreadOuvinte.getPacientes().size());
             res[0] = "200";
             res[1] = "OK";
             res[2] = jsonBuilder.toString();

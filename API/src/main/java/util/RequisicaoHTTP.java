@@ -36,7 +36,6 @@ public class RequisicaoHTTP {
     public static RequisicaoHTTP lerRequisicao(InputStream entrada) throws IOException {
         RequisicaoHTTP requisicao = new RequisicaoHTTP();
         BufferedReader buffer = new BufferedReader(new InputStreamReader(entrada));
-        System.out.println("Requisição: ");
         /* Lê a primeira linha
          contem as informaçoes da requisição
          */
@@ -54,7 +53,7 @@ public class RequisicaoHTTP {
         String dadosHeader = buffer.readLine();
         //Enquanto a linha nao for nula e nao for vazia
         while (dadosHeader != null && !dadosHeader.isEmpty()) {
-            System.out.println(dadosHeader);
+            //System.out.println(dadosHeader);
             String[] linhaCabecalho = dadosHeader.split(":");
             requisicao.setCabecalho(linhaCabecalho[0], linhaCabecalho[1].trim().split(","));
             dadosHeader = buffer.readLine();

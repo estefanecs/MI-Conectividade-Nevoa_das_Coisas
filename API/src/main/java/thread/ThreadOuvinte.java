@@ -61,6 +61,7 @@ public class ThreadOuvinte implements IMqttMessageListener{
     public void messageArrived(String string, MqttMessage mm) throws Exception {
         ObjectInputStream objStream = new ObjectInputStream(new ByteArrayInputStream(mm.getPayload()));
         Paciente[] pacientesStream = (Paciente[])objStream.readObject();
+        System.out.println("Quantidade recebida: " + pacientesStream.length);
         for(int i = 0; i < pacientesStream.length; i++){
             System.out.println(pacientesStream[i]);
             pacientes.remove(pacientesStream[i]);

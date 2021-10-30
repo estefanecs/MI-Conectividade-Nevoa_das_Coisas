@@ -33,7 +33,7 @@ public class ThreadCliente extends Thread {
     private final Socket socket;
     private boolean conectado;
     private HashMap data_base_ref;
-    private static int qtd_list = 1;
+    private static int qtd_list = 0;
     private Paciente paciente;
 
     public ThreadCliente(Socket cliente, HashMap data_base) {

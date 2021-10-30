@@ -57,18 +57,20 @@ public class TelaInicial extends javax.swing.JFrame {
                     model.setRowCount(0);
                     //Lista na tela as informações do paciente
                     for (Paciente paciente1 : pacientes) {
-                        Object[] row = {
-                            paciente1.getNome(),
-                            paciente1.getCpf(),
-                            paciente1.getGravidade(),
-                            paciente1.getPressaoArterial(),
-                            paciente1.getFreqCardiaca(),
-                            paciente1.getFreqRespiratoria(),
-                            paciente1.getTemperatura(),
-                            paciente1.getSaturacao()
-                        };
-                        model.addRow(row);
-                        System.out.println("Nome: " + paciente1.getNome());
+                       if(paciente1 != null){
+                            Object[] row = {
+                                paciente1.getNome(),
+                                paciente1.getCpf(),
+                                paciente1.getGravidade(),
+                                paciente1.getPressaoArterial(),
+                                paciente1.getFreqCardiaca(),
+                                paciente1.getFreqRespiratoria(),
+                                paciente1.getTemperatura(),
+                                paciente1.getSaturacao()
+                            };
+                            model.addRow(row);
+                            System.out.println("Nome: " + paciente1.getNome());
+                       }
                     }
                     Thread.sleep(1000);
                 } catch (Exception e) {
@@ -203,16 +205,20 @@ public class TelaInicial extends javax.swing.JFrame {
      */
     private void tblPacientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPacientesMouseClicked
         // TODO add your handling code here:
-        JTable source = (JTable) evt.getSource();
-        int row = source.rowAtPoint(evt.getPoint());
-        String cpf = source.getModel().getValueAt(row, 1) + ""; //cpf do paciente
-        Paciente paciente = reportController.getPaciente(urlServidor, cpf); //Busca o paciente com o cpf
-        //Se encontrou o paciente, cria uma janela para o monitoramento do paciente
-        if (paciente != null) {
-            exitThread = true;
-            MonitoramentoPaciente reportView = new MonitoramentoPaciente(paciente, urlServidor);
-            reportView.setVisible(true);
-            dispose();
+        try{
+            JTable source = (JTable) evt.getSource();
+            int row = source.rowAtPoint(evt.getPoint());
+            String cpf = source.getModel().getValueAt(row, 1) + ""; //cpf do paciente
+            Paciente paciente = reportController.getPaciente(urlServidor, cpf); //Busca o paciente com o cpf
+            //Se encontrou o paciente, cria uma janela para o monitoramento do paciente
+            if (paciente != null) {
+                exitThread = true;
+                MonitoramentoPaciente reportView = new MonitoramentoPaciente(paciente, urlServidor);
+                reportView.setVisible(true);
+                dispose();
+            }
+        }catch(Exception e ){
+            
         }
     }//GEN-LAST:event_tblPacientesMouseClicked
 
