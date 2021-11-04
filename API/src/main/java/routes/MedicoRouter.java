@@ -69,6 +69,7 @@ public class MedicoRouter implements Router {
 //            }
             Iterator i = ThreadOuvinte.pacientes();
             Object row;
+            //Recupera a quantidade de pacientes solicitada pelo médico e envia para o tópico em que a fog escuta.
             String quant = entries.get("quantidade");
             int quantidade = 0;
             if (quant != null) {
@@ -82,6 +83,7 @@ public class MedicoRouter implements Router {
             int count = 0;
             System.out.println(i.hasNext());
             row = i.next();
+            //Formata os pacientes em Json.
             while (row !=null && count < quantidade) {
                 if (row instanceof Paciente) {
                     jsonBuilder.append(row.toString());
