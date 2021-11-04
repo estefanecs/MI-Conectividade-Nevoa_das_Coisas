@@ -36,8 +36,8 @@ import util.FilaPrioridade;
 
 public class ThreadOuvinte implements IMqttMessageListener{
 
-    private HashMap<String, Object> data_base;
-    private static FilaPrioridade pacientes = new FilaPrioridade();
+    private HashMap<String, Object> data_base; //Dados dos pacientes presente no server.
+    private static FilaPrioridade pacientes = new FilaPrioridade(); //Fila de prioridade para processar os dados recebidos.
     public static Iterator pacientes (){
         return pacientes.getIterator();
     }
@@ -51,6 +51,15 @@ public class ThreadOuvinte implements IMqttMessageListener{
         ThreadOuvinte.pacientes = pacientes;
     }
 
+    /**
+     * Thread para receber as informações do Broker.
+     * @param data_base dados dos pacientes.
+     * @param serverURI URI para o Broker MQTT.
+     * @param user Usuário para conexão ao Broker.
+     * @param password Senha para conexão ao Broker.
+     * @param topic Tópico de conexão.
+     * @param qos Níveo de qos de comunicação.
+     */
     public ThreadOuvinte(HashMap<String, Object> data_base, String serverURI, String user, String password, String topic, int qos) {
         this.data_base = data_base;
         OuvinteInterno clienteMQTT = new OuvinteInterno(serverURI,user,password);
@@ -59,6 +68,12 @@ public class ThreadOuvinte implements IMqttMessageListener{
         
     }
 
+    /**
+     * Método executado quando uma mensagem é recebida do Broker.
+     * @param topic Tópico de recebimento da mensagem.
+     * @param mm Dados da mensagem.
+     * @throws Exception 
+     */
     @Override
     public void messageArrived(String topic, MqttMessage mm) throws Exception {
         if(topic.equals("problema2/dadosPaciente")){
@@ -71,6 +86,12 @@ public class ThreadOuvinte implements IMqttMessageListener{
             updatePaciente(data_base, paciente);
         }
     }
+    
+    /**
+     * Método para atualização dos dados do paciente.
+     * @param data_base base de dados do servidor.
+     * @param newPaciente O Paciente a ser atualizado/inserido.
+     */
     private static void updatePaciente(HashMap data_base, Paciente newPaciente){
         Paciente pacienteBD = (Paciente)data_base.get(newPaciente.getCpf());
             if (pacienteBD != null) {
@@ -87,6 +108,14 @@ public class ThreadOuvinte implements IMqttMessageListener{
                 data_base.put(newPaciente.getCpf(), newPaciente);
             }
     }
+    
+    /**
+     * Lista os pacientes a partir das várias FOGs.
+     * @param mm Dados da mensagem recebida.
+     * @param data_base Dados de pacientes presentes no servidor.
+     * @throws IOException
+     * @throws ClassNotFoundException caso não seja possível fazer o casting para Paciente.
+     */
     private static void listOfFog(MqttMessage mm, HashMap data_base) throws IOException, ClassNotFoundException{
         ObjectInputStream objStream = new ObjectInputStream(new ByteArrayInputStream(mm.getPayload()));
         Paciente[] pacientesStream = (Paciente[])objStream.readObject();
@@ -101,6 +130,8 @@ public class ThreadOuvinte implements IMqttMessageListener{
 }
 
 class OuvinteInterno implements MqttCallbackExtended {
+    
+    //Métodos para conexão ao Broker MQTT.
 
     private final String serverURI;
     private MqttClient client;
