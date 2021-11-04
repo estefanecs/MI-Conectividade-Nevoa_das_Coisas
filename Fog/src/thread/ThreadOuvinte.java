@@ -53,6 +53,13 @@ public class ThreadOuvinte implements IMqttMessageListener{
         return data_base;
     }
     
+    /**Thread responsável por receber as mensagens enviadas à fog.
+     * @param serverURI URI para o broker MQTT
+     * @param user Identificador de usuário.
+     * @param password Senha de conexão.
+     * @param topic Tópico da mensagem.
+     * @param qos Nível de conexão.
+     */
     public ThreadOuvinte(String serverURI, String user, String password, String topic, int qos) {
         OuvinteInterno clienteMQTT = new OuvinteInterno(serverURI,user,password);
         clienteMQTT.iniciar();
@@ -60,6 +67,12 @@ public class ThreadOuvinte implements IMqttMessageListener{
         
     }
 
+    /**
+     * Método executado quando uma mensagem é recebida do Broker.
+     * @param topic Tópico em que a mensagem foi enviada.
+     * @param mm Mensagem recebida.
+     * @throws Exception
+     */
     @Override
     public void messageArrived(String topic, MqttMessage mm) throws Exception {
         String body = new String(mm.getPayload());
@@ -77,14 +90,19 @@ public class ThreadOuvinte implements IMqttMessageListener{
         }
     }
     
+    /**
+     * Metódo executado quando a fog recebe uma mensagem proveniente do sensor.
+     * @param mm Mensagem recebida.
+     */
     private void listeningSensor(MqttMessage mm){
         String body = new String(mm.getPayload());
         System.out.println("Dados recebebidos do sensor: "+body);
         try{
             Gson gson = new Gson(); // Or use new GsonBuilder().create();
             Paciente paciente = gson.fromJson((String) body, Paciente.class);
+            //Busca o paciente na base de dados da fog.
             Paciente pacienteBD = (Paciente)data_base.get(paciente.getCpf());
-
+            //Caso o paciente já esteja conectado à fog, ele é atualizado.
             if (pacienteBD != null) {
                 pacienteBD.setFreqCardiaca(paciente.getFreqCardiaca());
                 pacienteBD.setPressaoArterial(paciente.getPressaoArterial());
@@ -94,6 +112,7 @@ public class ThreadOuvinte implements IMqttMessageListener{
                 pacienteBD.setGravidade(paciente.getGravidade());
                 pacienteBD.setFreqRespiratoria(paciente.getFreqRespiratoria());
             }else{
+                //Adiciona o paciente à base de dados da fog.
                 data_base.put(paciente.getCpf(), paciente);
                 pacienteBD = paciente;
             }
@@ -106,16 +125,24 @@ public class ThreadOuvinte implements IMqttMessageListener{
     }
 
 }
-
+/**
+ * Encarrega-se da conexão com o broker MQTT.
+ * @author Cleyton
+ */
 class OuvinteInterno implements MqttCallbackExtended {
 
     private final String serverURI;
     private MqttClient client;
     private final MqttConnectOptions mqttOptions;
 
+    /**Thread responsável por receber as mensagens enviadas à fog.
+     * @param serverURI URI para o broker MQTT
+     * @param usuario Identificador de usuário.
+     * @param senha Senha de conexão.
+     */
     public OuvinteInterno(String serverURI, String usuario, String senha) {
         this.serverURI = serverURI;
-
+        //Configurações MQTT.
         mqttOptions = new MqttConnectOptions();
         mqttOptions.setMaxInflight(200);
         mqttOptions.setConnectionTimeout(3);
@@ -123,25 +150,34 @@ class OuvinteInterno implements MqttCallbackExtended {
         mqttOptions.setAutomaticReconnect(true);
         mqttOptions.setCleanSession(false);
 
+        //Configura o usuário caso haja.
         if (usuario != null && senha != null) {
             mqttOptions.setUserName(usuario);
             mqttOptions.setPassword(senha.toCharArray());
         }
     }
 
+    /**
+     * Configura a subscrição no tópico.
+     * @param qos nível de conexão.
+     * @param gestorMensagemMQTT objeto para receber as mensagens MQTT.
+     * @param topicos Lista de tópicos em que a fog será inscrita.
+     * @return Objeto para acompanhar as mensagens assíncronas recebidas.
+     */
     public IMqttToken subscribe(int qos, IMqttMessageListener gestorMensagemMQTT, String... topicos) {
         if (client == null || topicos.length == 0) {
             return null;
         }
         int tamanho = topicos.length;
         int[] qoss = new int[tamanho];
+        //Lista de listeners para os diversos tópicos.
         IMqttMessageListener[] listners = new IMqttMessageListener[tamanho];
-
+        //Configura os qoss para cada tópico.
         for (int i = 0; i < tamanho; i++) {
             qoss[i] = qos;
             listners[i] = gestorMensagemMQTT;
         }
-        try {
+        try {//Realiza a inscrição no tópico.
             return client.subscribeWithResponse(topicos, qoss, listners);
         } catch (MqttException ex) {
             System.out.println(String.format("Ouvinte: Erro ao se inscrever nos tópicos %s - %s", Arrays.asList(topicos), ex));
@@ -149,6 +185,10 @@ class OuvinteInterno implements MqttCallbackExtended {
         }
     }
 
+    /**
+     * Método para remover a inscrição nos tópicos passados.
+     * @param topicos Tópicos para remover a inscrição.
+     */
     public void unsubscribe(String... topicos) {
         if (client == null || !client.isConnected() || topicos.length == 0) {
             return;
@@ -160,6 +200,9 @@ class OuvinteInterno implements MqttCallbackExtended {
         }
     }
 
+    /**
+     * Inicializa a conexão do cliente com o Broker.
+     */
     public void iniciar() {
         try {
             System.out.println("Ouvinte: Conectando no broker MQTT em " + serverURI);
@@ -171,6 +214,9 @@ class OuvinteInterno implements MqttCallbackExtended {
         }
     }
 
+    /**
+     * Finaliza a conexão do cliente com o broker.
+     */
     public void finalizar() {
         if (client == null || !client.isConnected()) {
             return;
