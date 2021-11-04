@@ -27,6 +27,9 @@ Windows: https://dicasdejava.com.br/como-instalar-o-maven-no-windows/
 - 5 Execute o arquivo ```java -jar target/${nome-projeto}.jar```
 
 ### Passo a Passo Para executar FOG e sensores
+Os dois projetos devem ser executados em um mesmo computador para que o sistemma funcione corretamente.
 - 1 Abra os projetos FOG e Sensor no netbeans
-- 2 Certifique-se de ter instalado o Mosquitto na sua máquina
-- 3 Execute os projetos pela IDE
+- 2 Certifique-se de ter instalado o Mosquitto na sua máquina e execute
+- 3 Verifique se as bibliotecas Gson e cliente.mqtt estão adicionadas no projeto FOG. Caso não, elas estão na pasta do projeto basta adicioná-las.
+- 4- Certifique-se que as bibliotecas cliente.mqtt e javafaker estão adicionadas no Sensor. Se não estiverem, o arquivo está na pasta do projeto.
+- 5 Execute os projetos pela IDE
