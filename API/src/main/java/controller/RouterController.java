@@ -20,17 +20,26 @@ import routes.Router;
 import routes.MedicoRouter;
 import routes.PacienteRouter;
 
-
 public class RouterController {
 
     private Router route;
 
+    /**
+     * Controlador de rotas.
+     * @param url url da rota.
+     * @param method método http.
+     * @param body conteúdo da mensagem.
+     * @param data_base base de dados do servidor.
+     * @return 
+     */
     public Object[] router(String url, String method, String body, HashMap data_base) {
         System.out.println(url);
         try {
+            //Divide a url por parâmetros "\?"
             String[] urlSplit = url.split("\\?");
+            //Define o path como o primeiro parâmetro da url.
             String path = urlSplit[0];
-
+            //Mapeia os parâmetros e seus valores.
             HashMap<String, String> params = new HashMap();
             if (urlSplit.length == 2) {
                 urlSplit = urlSplit[1].split("\\&");
@@ -40,7 +49,7 @@ public class RouterController {
                     params.put(entry[0], entry[1]);
                 }
             }
-
+            //Define a rota recebida e sua respectiva resposta.
             Gson gson = new Gson();
             String queryParams = gson.toJson(params);
             if (path.equals("/paciente")) {

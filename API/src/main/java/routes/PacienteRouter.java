@@ -22,6 +22,12 @@ import view.main;
 
 public class PacienteRouter implements Router {
 
+    /**
+     * Rota para cadastro de paciente.
+     * @param body corpo da requisição.
+     * @param data_base base de dados.
+     * @return resposta.
+     */
     public Object[] POST(Object body, HashMap data_base) {
         Object[] res = new Object[3];
         try {
@@ -48,6 +54,12 @@ public class PacienteRouter implements Router {
         return res;
     }
 
+    /**
+     * Rota para obter dados dos pacientes.
+     * @param body Corpo da requisição.
+     * @param data_base base de dados.
+     * @return resposta.
+     */
     public Object[] GET(Object body, HashMap data_base) {
         Object[] res = new Object[3];
         try {
@@ -78,6 +90,12 @@ public class PacienteRouter implements Router {
         return res;
     }
 
+    /**
+     * Rota para cadastro de paciente.
+     * @param body Corpo da requisição.
+     * @param data_base base de dados do paciente.
+     * @return Resposta.
+     */
     public Object[] PUT(Object body, HashMap data_base) {
         Object[] res = new Object[3];
         try {
@@ -109,6 +127,12 @@ public class PacienteRouter implements Router {
         return res;
     }
 
+    /**
+     * Rota para apagar usuário com base no seu cpf.
+     * @param body
+     * @param data_base
+     * @return 
+     */
     public Object[] DELETE(Object body, HashMap data_base) {
         Object[] res = new Object[3];
         try {
@@ -136,6 +160,12 @@ public class PacienteRouter implements Router {
         return res;
     }
     
+    /**
+     * Rota para receber a gravidade com base no cpf do paciente.
+     * @param body corpo da mensagem.
+     * @param data_base Base de dados.
+     * @return Resposta da requisição
+     */
     public Object[] GETGravidade(Object body, HashMap data_base) {
         Object[] res = new Object[3];
         try {
@@ -164,6 +194,12 @@ public class PacienteRouter implements Router {
         return res;
     }
     
+    /**
+     * Rota para receber a gravidade com base no cpf do paciente.
+     * @param body corpo da mensagem.
+     * @param data_base Base de dados.
+     * @return Resposta da requisição
+     */
      public Object[] PUTGravidade(Object body, HashMap data_base) {
         Object[] res = new Object[3];
         try {
