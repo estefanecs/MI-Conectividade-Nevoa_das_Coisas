@@ -1,16 +1,16 @@
 /**
- * Componente Curricular: M�dulo Integrado de Concorr�ncia e Conectividade
- * Autor: Cleyton Almeida da Silva, Est�fane Carmo de Souza e Matheus Nascimento
+ * Componente Curricular: Módulo Integrado de Concorrência e Conectividade
+ * Autor: Cleyton Almeida da Silva, Estéfane Carmo de Souza e Matheus Nascimento
  * Data: 11/10/2021
  *
- * Declaro que este c�digo foi elaborado por n�s de forma colaborativa e
- * n�o cont�m nenhum trecho de c�digo de outro colega ou de outro autor,
- * tais como provindos de livros e apostilas, e p�ginas ou documentos
- * eletr�nicos da Internet. Qualquer trecho de c�digo de outra autoria que
- * uma cita��o para o  n�o a minha est� destacado com  autor e a fonte do
- * c�digo, e estou ciente que estes trechos n�o ser�o considerados para fins
- * de avalia��o. Alguns trechos do c�digo podem coincidir com de outros
- * colegas pois estes foram discutidos em sess�es tutorias.
+ * Declaro que este código foi elaborado por nós de forma colaborativa e
+ * não contém nenhum trecho de código de outro colega ou de outro autor,
+ * tais como provindos de livros e apostilas, e páginas ou documentos
+ * eletrônicos da Internet. Qualquer trecho de código de outra autoria que
+ * uma citação para o  não a minha está destacado com  autor e a fonte do
+ * código, e estou ciente que estes trechos não serão considerados para fins
+ * de avaliação. Alguns trechos do código podem coincidir com de outros
+ * colegas pois estes foram discutidos em sessões tutorias.
  */
 package thread;
 
@@ -36,21 +36,42 @@ import util.FilaPrioridade;
 
 public class ThreadOuvinte implements IMqttMessageListener{
 
-    private HashMap<String, Object> data_base;
-    private static FilaPrioridade pacientes = new FilaPrioridade();
+    private HashMap<String, Object> data_base; //Dados dos pacientes presente no server.
+    private static FilaPrioridade pacientes = new FilaPrioridade(); //Fila de prioridade para processar os dados recebidos.
+    
+    /**
+     * Método que retorna o iterator
+     * @return Iterator
+     */
     public static Iterator pacientes (){
         return pacientes.getIterator();
     }
 
+    /**
+     * Método que retorna a fila de pacientes
+     * @return FilaPrioridaade - a fila
+     */
     public static FilaPrioridade getPacientes() {
         return pacientes;
     }
 
-
+    /**
+     * Método que altera a instância da fila de pacientes
+     * @param pacientes - a nova fila
+     */
     public static void setPacientes(FilaPrioridade pacientes) {
         ThreadOuvinte.pacientes = pacientes;
     }
 
+    /**
+     * Thread para receber as informações do Broker.
+     * @param data_base dados dos pacientes.
+     * @param serverURI URI para o Broker MQTT.
+     * @param user Usuário para conexão ao Broker.
+     * @param password Senha para conexão ao Broker.
+     * @param topic Tópico de conexão.
+     * @param qos Níveo de qos de comunicação.
+     */
     public ThreadOuvinte(HashMap<String, Object> data_base, String serverURI, String user, String password, String topic, int qos) {
         this.data_base = data_base;
         OuvinteInterno clienteMQTT = new OuvinteInterno(serverURI,user,password);
@@ -59,6 +80,12 @@ public class ThreadOuvinte implements IMqttMessageListener{
         
     }
 
+    /**
+     * Método executado quando uma mensagem é recebida do Broker.
+     * @param topic Tópico de recebimento da mensagem.
+     * @param mm Dados da mensagem.
+     * @throws Exception 
+     */
     @Override
     public void messageArrived(String topic, MqttMessage mm) throws Exception {
         if(topic.equals("problema2/dadosPaciente")){
@@ -71,6 +98,12 @@ public class ThreadOuvinte implements IMqttMessageListener{
             updatePaciente(data_base, paciente);
         }
     }
+    
+    /**
+     * Método para atualização dos dados do paciente.
+     * @param data_base base de dados do servidor.
+     * @param newPaciente O Paciente a ser atualizado/inserido.
+     */
     private static void updatePaciente(HashMap data_base, Paciente newPaciente){
         Paciente pacienteBD = (Paciente)data_base.get(newPaciente.getCpf());
             if (pacienteBD != null) {
@@ -87,6 +120,14 @@ public class ThreadOuvinte implements IMqttMessageListener{
                 data_base.put(newPaciente.getCpf(), newPaciente);
             }
     }
+    
+    /**
+     * Lista os pacientes a partir das várias FOGs.
+     * @param mm Dados da mensagem recebida.
+     * @param data_base Dados de pacientes presentes no servidor.
+     * @throws IOException
+     * @throws ClassNotFoundException caso não seja possível fazer o casting para Paciente.
+     */
     private static void listOfFog(MqttMessage mm, HashMap data_base) throws IOException, ClassNotFoundException{
         ObjectInputStream objStream = new ObjectInputStream(new ByteArrayInputStream(mm.getPayload()));
         Paciente[] pacientesStream = (Paciente[])objStream.readObject();
@@ -101,6 +142,8 @@ public class ThreadOuvinte implements IMqttMessageListener{
 }
 
 class OuvinteInterno implements MqttCallbackExtended {
+    
+    //Métodos para conexão ao Broker MQTT.
 
     private final String serverURI;
     private MqttClient client;
@@ -137,7 +180,7 @@ class OuvinteInterno implements MqttCallbackExtended {
         try {
             return client.subscribeWithResponse(topicos, qoss, listners);
         } catch (MqttException ex) {
-            System.out.println(String.format("Ouvinte: Erro ao se inscrever nos tópicos %s - %s", Arrays.asList(topicos), ex));
+            System.out.println(String.format("Ouvinte: Erro ao se inscrever nos tÃ³picos %s - %s", Arrays.asList(topicos), ex));
             return null;
         }
     }
@@ -149,7 +192,7 @@ class OuvinteInterno implements MqttCallbackExtended {
         try {
             client.unsubscribe(topicos);
         } catch (MqttException ex) {
-            System.out.println(String.format("Ouvinte: Erro ao se desinscrever no tópico %s - %s", Arrays.asList(topicos), ex));
+            System.out.println(String.format("Ouvinte: Erro ao se desinscrever no tÃ³pico %s - %s", Arrays.asList(topicos), ex));
         }
     }
 
@@ -179,7 +222,7 @@ class OuvinteInterno implements MqttCallbackExtended {
 
     @Override
     public void connectionLost(Throwable thrwbl) {
-        System.out.println("Ouvinte: Conexão com o broker perdida -" + thrwbl);
+        System.out.println("Ouvinte: ConexÃ£o com o broker perdida -" + thrwbl);
     }
 
     @Override
